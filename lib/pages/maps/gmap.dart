@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-// import 'package:location/location.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pi_mobile/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-import 'controller/input_controller.dart';
+import 'controller/map_screen_controller.dart';
 
 class GMap extends StatefulWidget {
   @override
@@ -37,7 +34,7 @@ class _GMapState extends State<GMap> {
             builder: (context, snapshot) {
               print("\n----------------BUILDING------------------\n");
               if (snapshot.hasData) {
-                var provider = Provider.of<InputController>(context);
+                var provider = Provider.of<MapScreenController>(context);
                 provider.initFromInput(snapshot.data);
                 // _createPolylines();
                 if (provider.where != null && provider.from != null) {

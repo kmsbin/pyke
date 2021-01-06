@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_mobile/pages/maps/home.dart';
-import 'package:pi_mobile/pages/maps/controller/input_controller.dart';
+import 'package:pi_mobile/pages/maps/controller/map_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider<InputController>.value(
-              value: InputController()),
+          ChangeNotifierProvider<MapScreenController>.value(
+              value: MapScreenController()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

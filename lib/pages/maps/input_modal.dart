@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pi_mobile/pages/maps/controller/input_controller.dart';
+import 'package:pi_mobile/pages/maps/controller/map_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 class InputsModal extends StatefulWidget {
@@ -14,7 +13,7 @@ class InputsModal extends StatefulWidget {
 
 class _InputsModalState extends State<InputsModal> {
   final _formKey = GlobalKey<FormState>();
-  InputController provider;
+  MapScreenController provider;
 
   @override
   void initState() {
@@ -23,7 +22,7 @@ class _InputsModalState extends State<InputsModal> {
 
   Widget containerList = Container();
 
-  Widget listAdress(InputController inpt) {
+  Widget listAdress(MapScreenController inpt) {
     return Container(
       color: Colors.black87.withOpacity(0.5),
       child: ListView.builder(
@@ -39,12 +38,12 @@ class _InputsModalState extends State<InputsModal> {
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<InputController>(context);
+    provider = Provider.of<MapScreenController>(context);
     return SafeArea(
         child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Consumer(
-                builder: (ctxt, InputController inputController, child) {
+                builder: (ctxt, MapScreenController inputController, child) {
               print(
                   "where runtime type ------- ${inputController.where.runtimeType}");
               print(
