@@ -32,6 +32,7 @@ class CoreMapsState extends State<CoreMaps> {
           InputsModal(screenSize: MediaQuery.of(context).size),
         ],
       ),
+      drawer: Drawer(),
       floatingActionButton: modalToggle(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));

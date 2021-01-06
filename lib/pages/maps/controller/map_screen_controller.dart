@@ -11,6 +11,7 @@ import '../../../utils.dart';
 class MapScreenController extends ChangeNotifier {
   String getWhere() => this._inputModel.whereController.text;
   InputModel _inputModel = new InputModel();
+  MapboxMapController mapController;
 
   void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
     var listDirect = await requestDirection(fromWaypoint, whereWaypoint);
@@ -37,12 +38,15 @@ class MapScreenController extends ChangeNotifier {
 
   TextEditingController get fromController => this._inputModel.fromController;
   TextEditingController get whereController => this._inputModel.whereController;
+  TextEditingController get currentLocationsModifier =>
+      this._inputModel.currentLocationsModifier;
 
   bool get isInputFrom => this._inputModel.isInputFrom;
   bool get isInputWhere => this._inputModel.isInputWhere;
 
   set currentLocationsModifier(TextEditingController newCurrent) {
     this._inputModel.currentLocationsModifier = newCurrent;
+    this.notifyListeners();
   }
 
   set where(dynamic newWhere) {
@@ -50,11 +54,13 @@ class MapScreenController extends ChangeNotifier {
     this.notifyListeners();
   }
 
-  set isInputFrom(bool isInputFrom) =>
-      this._inputModel.isInputFrom = isInputFrom;
+  set isInputFrom(bool isInputFrom) {
+    this._inputModel.isInputFrom = isInputFrom;
+  }
 
-  set isInputWhere(bool isInputWhere) =>
-      this._inputModel.isInputWhere = isInputWhere;
+  set isInputWhere(bool isInputWhere) {
+    this._inputModel.isInputWhere = isInputWhere;
+  }
 
   List<LatLng> unMarshal(Map req) {
     List rawCoordinates = req['routes'].first['geometry']['coordinates'];
@@ -68,9 +74,10 @@ class MapScreenController extends ChangeNotifier {
   void setWhere(String newWhere) async {
     if (this._inputModel.backupWhere != newWhere) {
       this._inputModel.backupWhere = newWhere;
-      this._inputModel.currentLocationsModifier =
-          this._inputModel.whereController;
       setLocations(this._inputModel.whereController.text);
+    }
+    if (this.currentLocationsModifier != this.whereController) {
+      this.currentLocationsModifier = this.whereController;
     }
   }
 
@@ -100,6 +107,7 @@ class MapScreenController extends ChangeNotifier {
         List<Address> newLoc =
             await Geocoder.local.findAddressesFromQuery(query);
         this._inputModel.locations = newLoc;
+        notifyListeners();
         // print(newLoc);
       } catch (err) {
         print(err);
@@ -107,6 +115,10 @@ class MapScreenController extends ChangeNotifier {
       return;
     }
     this.cleanLocationList();
+  }
+
+  openModal() {
+    this._inputModel.whereController.text = '';
   }
 
   void cleanLocationList() {
@@ -119,6 +131,7 @@ class MapScreenController extends ChangeNotifier {
   }
 
   void onSelectedItem(int index) {
+    mapController.clearLines();
     this._inputModel.currentLocationsModifier.text =
         this.getLocations()[index].addressLine;
     Coordinates coord = this.getLocations()[index].coordinates;
@@ -128,17 +141,23 @@ class MapScreenController extends ChangeNotifier {
     if (fromHash == currentHash) {
       this._inputModel.from = LatLng(coord.latitude, coord.longitude);
       this._inputModel.isInputFrom = true;
+      this._inputModel.fromController.text = "";
+      this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
       return;
     }
     if (whereHash == currentHash) {
       this._inputModel.where = LatLng(coord.latitude, coord.longitude);
       this._inputModel.isInputWhere = true;
+      this._inputModel.whereController.text = "";
+      this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
       return;
     }
-    this.cleanLocationList();
   }
+
+  bool get isShowModal =>
+      this._inputModel.where != null && this._inputModel.from != null;
 
   String getFrom() => this._inputModel.fromController.text;
 }

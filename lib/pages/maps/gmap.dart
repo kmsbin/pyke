@@ -37,14 +37,15 @@ class _GMapState extends State<GMap> {
                 var provider = Provider.of<MapScreenController>(context);
                 provider.initFromInput(snapshot.data);
                 // _createPolylines();
-                if (provider.where != null && provider.from != null) {
+                if (provider.isShowModal) {
                   if (provider.coordinates.length != 0) {
                     final LineOptions options = new LineOptions(
                         geometry: provider.coordinates,
                         lineColor: "#000000",
                         lineWidth: 10.0,
-                        draggable: true);
+                        draggable: false);
                     mapController?.addLine(options);
+                    mapController.clearLines();
                   }
                   print("Objet detection <Where> and <From>");
                 }
@@ -55,6 +56,7 @@ class _GMapState extends State<GMap> {
                       MyLocationTrackingMode.TrackingCompass,
                   onMapCreated: (MapboxMapController currentController) {
                     mapController = currentController;
+                    provider.mapController = currentController;
                   },
                   initialCameraPosition: CameraPosition(
                       target: LatLng(-27.003581, -48.637051), zoom: 20.0),

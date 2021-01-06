@@ -48,11 +48,8 @@ class _InputsModalState extends State<InputsModal> {
                   "where runtime type ------- ${inputController.where.runtimeType}");
               print(
                   "from runtime type ------- ${inputController.from.runtimeType}");
-              if (inputController.where != null &&
-                  inputController.from != null) {
-                if (provider.coordinates.length == 0) {
-                  provider.directionsHandler(provider.where, provider.from);
-                }
+              if (inputController.isShowModal) {
+                if (provider.coordinates.length == 0) {}
                 return Container();
               } else {
                 return Column(
@@ -60,7 +57,7 @@ class _InputsModalState extends State<InputsModal> {
                     children: [
                       Container(
                           height: widget.screenSize.height / 4,
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               color: Colors.black87.withOpacity(0.5),
                               borderRadius: BorderRadius.all(Radius.circular(
@@ -104,14 +101,8 @@ class _InputsModalState extends State<InputsModal> {
                                       controller:
                                           inputController.whereController,
                                       onChanged: (text) {
-                                        if (inputController.isInputWhere) {
-                                          inputController.isInputWhere = false;
-                                          return;
-                                        }
                                         inputController.setWhere(text);
-                                        inputController
-                                                .currentLocationsModifier =
-                                            inputController.whereController;
+                                        // inputController.currentLocationsModifier = inputController.whereController;
                                       },
                                       decoration: InputDecoration(
                                           enabledBorder: UnderlineInputBorder(
