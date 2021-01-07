@@ -19,6 +19,7 @@ class CoreMapsState extends State<CoreMaps> {
             onPressed: () {
               provider.where = null;
             },
+            backgroundColor: Color(0xffD31B77),
             label: Text("new Route"));
       }
       return null;
@@ -32,7 +33,29 @@ class CoreMapsState extends State<CoreMaps> {
           InputsModal(screenSize: MediaQuery.of(context).size),
         ],
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: Container(
+          color: const Color(0xff030d22),
+          child: LayoutBuilder(
+              key: new Key("sdga"),
+              builder: (drawerContext, constraint) {
+                print(
+                    "----------- ${constraint.maxWidth} --------- ${MediaQuery.of(context).size.width}");
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      // color: Colors.amberAccent,
+                      height: constraint.maxWidth / 2,
+                      width: constraint.maxWidth / 2,
+                      child: Image.asset("assets/images/user_profile.png"),
+                    ),
+                  ],
+                );
+              }),
+        ),
+      ),
       floatingActionButton: modalToggle(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));

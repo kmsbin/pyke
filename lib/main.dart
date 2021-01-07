@@ -14,6 +14,11 @@ class MyApp extends StatelessWidget {
               value: MapScreenController()),
         ],
         child: MaterialApp(
+          theme: ThemeData(
+            fontFamily: 'Ubuntu Mono',
+            primaryColor: const Color(0xff030d22),
+            accentColor: Color(0xffD31B77),
+          ),
           debugShowCheckedModeBanner: false,
           title: 'Flutter Google Maps Demo',
           home: CoreMaps(),

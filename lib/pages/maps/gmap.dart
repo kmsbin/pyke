@@ -29,6 +29,7 @@ class _GMapState extends State<GMap> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        color: const Color(0xff030d22),
         child: FutureBuilder(
             future: Utils.position,
             builder: (context, snapshot) {
@@ -40,30 +41,44 @@ class _GMapState extends State<GMap> {
                 if (provider.isShowModal) {
                   if (provider.coordinates.length != 0) {
                     final LineOptions options = new LineOptions(
-                        geometry: provider.coordinates,
-                        lineColor: "#000000",
-                        lineWidth: 10.0,
-                        draggable: false);
+                      geometry: provider.coordinates,
+                      lineColor: "#D31B77",
+                      lineWidth: 10.0,
+                      draggable: false,
+                      lineOpacity: 1.0,
+                      lineBlur: 1.0,
+                    );
                     mapController?.addLine(options);
                     mapController.clearLines();
                   }
                   print("Objet detection <Where> and <From>");
                 }
-
                 return MapboxMap(
                   compassEnabled: true,
+                  minMaxZoomPreference: MinMaxZoomPreference(12, 16.5),
                   myLocationTrackingMode:
                       MyLocationTrackingMode.TrackingCompass,
                   onMapCreated: (MapboxMapController currentController) {
                     mapController = currentController;
                     provider.mapController = currentController;
                   },
+                  styleString:
+                      "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(-27.003581, -48.637051), zoom: 20.0),
+                    target: LatLng(-27.003581, -48.637051),
+                    zoom: 16.5,
+                  ),
                 );
               } else {
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  color: const Color(0xff030d22),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffD31B77)),
+                      backgroundColor: const Color(0xff030d22),
+                    ),
+                  ),
                 );
               }
             }));
