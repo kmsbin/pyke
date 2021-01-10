@@ -28,7 +28,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-  google_maps_flutter: ^1.0.2
   location: ^3.0.0
   geolocator: ^6.1.0
   geocoding: ^1.0.5
@@ -77,11 +76,10 @@ flutter:
         - asset: assets/fonts/UbuntuMono-Italic.ttf
         - asset: assets/fonts/UbuntuMono-Regular.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+    - family:  FastBike
+      fonts:
+        - asset: fonts/FastBike.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

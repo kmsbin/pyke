@@ -49,7 +49,8 @@ class _GMapState extends State<GMap> {
                       lineBlur: 1.0,
                     );
                     mapController?.addLine(options);
-                    mapController.clearLines();
+                    // mapController.updateLine(snapshot.data.p, changes)
+                    mapController?.clearLines();
                   }
                   print("Objet detection <Where> and <From>");
                 }
@@ -65,7 +66,7 @@ class _GMapState extends State<GMap> {
                   styleString:
                       "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(-27.003581, -48.637051),
+                    target: LatLng(snapshot.data.latitude, -48.637051),
                     zoom: 16.5,
                   ),
                 );
@@ -74,8 +75,8 @@ class _GMapState extends State<GMap> {
                   color: const Color(0xff030d22),
                   child: Center(
                     child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffD31B77)),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xffD31B77)),
                       backgroundColor: const Color(0xff030d22),
                     ),
                   ),

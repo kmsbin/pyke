@@ -39,19 +39,18 @@ class _InputsModalState extends State<InputsModal> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MapScreenController>(context);
-    return SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Consumer(
-                builder: (ctxt, MapScreenController inputController, child) {
-              print(
-                  "where runtime type ------- ${inputController.where.runtimeType}");
-              print(
-                  "from runtime type ------- ${inputController.from.runtimeType}");
-              if (inputController.isShowModal) {
-                if (provider.coordinates.length == 0) {}
-                return Container();
-              } else {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Consumer(
+                  builder: (ctxt, MapScreenController inputController, child) {
+                print(
+                    "where runtime type ------- ${inputController.where.runtimeType}");
+                print(
+                    "from runtime type ------- ${inputController.from.runtimeType}");
+
                 return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -136,8 +135,8 @@ class _InputsModalState extends State<InputsModal> {
                                       itemBuilder: (ctxt, index) {
                                         return new ListTile(
                                             onTap: () {
-                                              inputController
-                                                  .onSelectedItem(index);
+                                              inputController.onSelectedItem(
+                                                  index, context);
                                             },
                                             title: Text(
                                               inputController
@@ -151,7 +150,7 @@ class _InputsModalState extends State<InputsModal> {
                                 )
                               : Container())
                     ]);
-              }
-            })));
+              }))),
+    );
   }
 }

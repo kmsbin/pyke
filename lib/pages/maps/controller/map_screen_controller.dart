@@ -20,6 +20,7 @@ class MapScreenController extends ChangeNotifier {
     this.notifyListeners();
   }
 
+  void updateScreen() => this.notifyListeners();
   Future<Map<dynamic, dynamic>> requestDirection(
       LatLng fromWaypoint, LatLng whereWaypoint) async {
     Response response;
@@ -130,7 +131,13 @@ class MapScreenController extends ChangeNotifier {
     return this._inputModel.locations;
   }
 
-  void onSelectedItem(int index) {
+  void closeModal(BuildContext context) {
+    if (!this.isShowModal) {
+      Navigator.pop(context);
+    }
+  }
+
+  void onSelectedItem(int index, context) {
     mapController.clearLines();
     this._inputModel.currentLocationsModifier.text =
         this.getLocations()[index].addressLine;
@@ -138,9 +145,9 @@ class MapScreenController extends ChangeNotifier {
     final int fromHash = this._inputModel.fromController.hashCode;
     final int currentHash = this._inputModel.currentLocationsModifier.hashCode;
     final int whereHash = this._inputModel.whereController.hashCode;
+    closeModal(context);
     if (fromHash == currentHash) {
       this._inputModel.from = LatLng(coord.latitude, coord.longitude);
-      this._inputModel.isInputFrom = true;
       this._inputModel.fromController.text = "";
       this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
@@ -148,7 +155,6 @@ class MapScreenController extends ChangeNotifier {
     }
     if (whereHash == currentHash) {
       this._inputModel.where = LatLng(coord.latitude, coord.longitude);
-      this._inputModel.isInputWhere = true;
       this._inputModel.whereController.text = "";
       this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
