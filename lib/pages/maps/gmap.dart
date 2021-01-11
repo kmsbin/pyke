@@ -36,6 +36,8 @@ class _GMapState extends State<GMap> {
               print("\n----------------BUILDING------------------\n");
               if (snapshot.hasData) {
                 var provider = Provider.of<MapScreenController>(context);
+                // provider.position(snapshot.data);
+                // provider.position = snapshot.data;
                 provider.initFromInput(snapshot.data);
                 // _createPolylines();
                 if (provider.isShowModal) {
@@ -52,7 +54,6 @@ class _GMapState extends State<GMap> {
                     // mapController.updateLine(snapshot.data.p, changes)
                     mapController?.clearLines();
                   }
-                  print("Objet detection <Where> and <From>");
                 }
                 return MapboxMap(
                   compassEnabled: true,
@@ -66,8 +67,9 @@ class _GMapState extends State<GMap> {
                   styleString:
                       "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(snapshot.data.latitude, -48.637051),
-                    zoom: 16.5,
+                    target:
+                        LatLng(snapshot.data.latitude, snapshot.data.longitude),
+                    zoom: 15,
                   ),
                 );
               } else {

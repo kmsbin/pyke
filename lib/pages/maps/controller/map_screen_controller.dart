@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class MapScreenController extends ChangeNotifier {
   String getWhere() => this._inputModel.whereController.text;
   InputModel _inputModel = new InputModel();
   MapboxMapController mapController;
+  Address currentClientPosition;
 
   void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
     var listDirect = await requestDirection(fromWaypoint, whereWaypoint);
@@ -97,6 +100,7 @@ class MapScreenController extends ChangeNotifier {
       List<Address> address = await Geocoder.local.findAddressesFromCoordinates(
           Coordinates(position.latitude, position.longitude));
       this._inputModel.from = LatLng(position.latitude, position.longitude);
+      this.currentClientPosition = address.first;
       this._inputModel.fromController.text = address.first.addressLine;
       notifyListeners();
     }
@@ -107,7 +111,16 @@ class MapScreenController extends ChangeNotifier {
       try {
         List<Address> newLoc =
             await Geocoder.local.findAddressesFromQuery(query);
-        this._inputModel.locations = newLoc;
+        List<Address> filtred = List<Address>();
+        newLoc.forEach((address) {
+          //adminArea: Estado
+          if (address.adminArea == this.currentClientPosition?.adminArea) {
+            // print("\n-----------------Location: zsdfgbnsdb\n");
+            filtred.add(address);
+          }
+        });
+
+        this._inputModel.locations = filtred;
         notifyListeners();
         // print(newLoc);
       } catch (err) {
@@ -118,7 +131,7 @@ class MapScreenController extends ChangeNotifier {
     this.cleanLocationList();
   }
 
-  openModal() {
+  void openModal() {
     this._inputModel.whereController.text = '';
   }
 
@@ -137,6 +150,38 @@ class MapScreenController extends ChangeNotifier {
     }
   }
 
+  void calculateDistance() {
+    if (this.isShowModal) {
+      LatLng a = this._inputModel.where;
+      LatLng b = this._inputModel.from;
+      double catetoBC = pow(b.longitude - a.longitude, 2);
+      double catetoAC = pow(b.latitude - a.latitude, 2);
+      double distance = sqrt(catetoAC + catetoBC) * (40.075 / 360);
+      double zoom = 0;
+      double remainder = distance * 1000;
+      while (remainder > 0.01) {
+        () {
+          if (remainder > 0.01) {
+            zoom = zoom + 0.01;
+            remainder = remainder / 2;
+            return;
+          }
+          if (remainder > 0.1) {
+            zoom = zoom + 0.1;
+            remainder = remainder / 2;
+            return;
+          }
+          if (remainder > 0) {
+            zoom++;
+            remainder = remainder / 2;
+            return;
+          }
+        }();
+      }
+      print("\n A DISTANCIA ENTRE OS PONTOS SÃO :: ${distance}KM -------- \n");
+    }
+  }
+
   void onSelectedItem(int index, context) {
     mapController.clearLines();
     this._inputModel.currentLocationsModifier.text =
@@ -148,6 +193,7 @@ class MapScreenController extends ChangeNotifier {
     closeModal(context);
     if (fromHash == currentHash) {
       this._inputModel.from = LatLng(coord.latitude, coord.longitude);
+      calculateDistance();
       this._inputModel.fromController.text = "";
       this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
@@ -155,6 +201,7 @@ class MapScreenController extends ChangeNotifier {
     }
     if (whereHash == currentHash) {
       this._inputModel.where = LatLng(coord.latitude, coord.longitude);
+      calculateDistance();
       this._inputModel.whereController.text = "";
       this.directionsHandler(this.where, this.from);
       this.cleanLocationList();

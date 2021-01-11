@@ -29,7 +29,7 @@ class _InputsModalState extends State<InputsModal> {
         scrollDirection: Axis.vertical,
         itemCount: inpt.getLocations().length,
         itemBuilder: (BuildContext context, int index) {
-          print(inpt.getLocations());
+          // print(inpt.getLocations());
           return Text("kasd");
         },
       ),
@@ -46,16 +46,16 @@ class _InputsModalState extends State<InputsModal> {
               padding: const EdgeInsets.all(10),
               child: Consumer(
                   builder: (ctxt, MapScreenController inputController, child) {
-                print(
-                    "where runtime type ------- ${inputController.where.runtimeType}");
-                print(
-                    "from runtime type ------- ${inputController.from.runtimeType}");
+                // print(
+                //     "where runtime type ------- ${inputController.where.runtimeType}");
+                // print(
+                //     "from runtime type ------- ${inputController.from.runtimeType}");
 
                 return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                          height: widget.screenSize.height / 4,
+                          height: 150,
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               color: Colors.black87.withOpacity(0.5),
