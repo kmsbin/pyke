@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_mobile/custom_icons.dart';
 import 'package:pi_mobile/pages/maps/gmap.dart';
 import 'package:pi_mobile/pages/maps/input_modal.dart';
-import 'package:pi_mobile/utils.dart';
 
 class CoreMaps extends StatefulWidget {
   @override
@@ -14,6 +13,7 @@ class CoreMapsState extends State<CoreMaps> with TickerProviderStateMixin {
   Animation colorButton;
   AnimationController _controller;
   bool isRun = false;
+  String routeType = "cycling";
 
   double iconDistance = -3;
   @override
@@ -64,43 +64,60 @@ class CoreMapsState extends State<CoreMaps> with TickerProviderStateMixin {
                         context: context,
                         pageBuilder: (BuildContext ctxt, asd, dfsg) {
                           return InputsModal(
-                              screenSize: MediaQuery.of(ctxt).size);
+                            screenSize: MediaQuery.of(ctxt).size,
+                            routeType: routeType,
+                          );
                         });
                     _controller.reverse();
                   }),
             )),
-        Align(
-            alignment: Alignment.bottomRight,
-            child: SlideTransition(
-              position: navOffset[1],
-              child: FloatingActionButton(
-                  heroTag: "asdgaehadgtxedcrfect",
-                  child: Icon(Icons.directions_bike),
-                  onPressed: () {
-                    isRun = !isRun;
-                    if (isRun) {
-                      _controller.forward();
-                      return;
-                    }
-                    _controller.reverse();
-                  }),
-            )),
-        Align(
-            alignment: Alignment.bottomRight,
-            child: SlideTransition(
-              position: navOffset[2],
-              child: FloatingActionButton(
-                  heroTag: "@#ahgdsaëaerha4wgrafhadfsyhwasdh#sd#ha%h",
-                  child: Icon(FastBike.bike_fast_icon_135885),
-                  onPressed: () {
-                    isRun = !isRun;
-                    if (isRun) {
-                      _controller.forward();
-                      return;
-                    }
-                    _controller.reverse();
-                  }),
-            )),
+        AnimatedOpacity(
+          opacity: routeType == "cycling" ? 0.6 : 1,
+          duration: Duration(milliseconds: 500),
+          child: Align(
+              alignment: Alignment.bottomRight,
+              child: SlideTransition(
+                position: navOffset[1],
+                child: FloatingActionButton(
+                    heroTag: "asdgaehadgtxedcrfect",
+                    child: Icon(Icons.directions_bike),
+                    onPressed: () {
+                      setState(() {
+                        routeType = "cycling";
+                      });
+                      isRun = !isRun;
+                      if (isRun) {
+                        // _controller.forward();
+                        return;
+                      }
+                      // _controller.reverse();
+                    }),
+              )),
+        ),
+        AnimatedOpacity(
+          opacity: routeType == "walking" ? 0.6 : 1,
+          duration: Duration(milliseconds: 500),
+          child: Align(
+              alignment: Alignment.bottomRight,
+              child: SlideTransition(
+                position: navOffset[2],
+                child: FloatingActionButton(
+                    heroTag: "@#ahgdsaëaerha4wgrafhadfsyhwasdh#sd#ha%h",
+                    child: Icon(FastBike.bike_fast_icon_135885),
+                    onPressed: () {
+                      setState(() {
+                        routeType = "walking";
+                      });
+                      routeType = "walking";
+                      isRun = !isRun;
+                      if (isRun) {
+                        // _controller.forward();
+                        return;
+                      }
+                      // _controller.reverse();
+                    }),
+              )),
+        ),
         Align(
             alignment: Alignment.bottomRight,
             child: AnimatedBuilder(
@@ -145,8 +162,8 @@ class CoreMapsState extends State<CoreMaps> with TickerProviderStateMixin {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * .33,
+                    AspectRatio(
+                      aspectRatio: 6 / 7,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[

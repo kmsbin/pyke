@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 
 class InputsModal extends StatefulWidget {
   Size screenSize;
+  final String routeType;
 
-  InputsModal({this.screenSize}) : super();
+  InputsModal({this.screenSize, this.routeType}) : super();
 
   @override
   _InputsModalState createState() => _InputsModalState();
@@ -39,6 +40,8 @@ class _InputsModalState extends State<InputsModal> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MapScreenController>(context);
+    print(widget.routeType);
+    provider.routeType = widget.routeType;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
@@ -55,7 +58,7 @@ class _InputsModalState extends State<InputsModal> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                          height: 150,
+                          height: widget.screenSize.height / 4,
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               color: Colors.black87.withOpacity(0.5),

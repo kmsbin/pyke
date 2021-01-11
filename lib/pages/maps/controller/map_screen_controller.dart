@@ -15,6 +15,7 @@ class MapScreenController extends ChangeNotifier {
   InputModel _inputModel = new InputModel();
   MapboxMapController mapController;
   Address currentClientPosition;
+  String routeType;
 
   void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
     var listDirect = await requestDirection(fromWaypoint, whereWaypoint);
@@ -30,7 +31,7 @@ class MapScreenController extends ChangeNotifier {
     Dio dio = new Dio();
     String accessPoint = Utils.ACCESS_POINT_DIRECT_API;
     final String uri =
-        "https://api.mapbox.com/directions/v5/mapbox/cycling/${fromWaypoint.longitude}%2C${fromWaypoint.latitude}%3B${whereWaypoint.longitude}%2C${whereWaypoint.latitude}?alternatives=true&geometries=geojson&steps=false&access_token=$accessPoint";
+        "https://api.mapbox.com/directions/v5/mapbox/$routeType/${fromWaypoint.longitude}%2C${fromWaypoint.latitude}%3B${whereWaypoint.longitude}%2C${whereWaypoint.latitude}?alternatives=true&geometries=geojson&steps=false&access_token=$accessPoint";
     response = await dio.get(uri);
     return response.data;
   }
@@ -145,7 +146,9 @@ class MapScreenController extends ChangeNotifier {
   }
 
   void closeModal(BuildContext context) {
-    if (!this.isShowModal) {
+    print(
+        "\n -------- ${this._inputModel.where}  -----  ${this._inputModel.from}");
+    if (this.isShowModal) {
       Navigator.pop(context);
     }
   }
@@ -156,7 +159,7 @@ class MapScreenController extends ChangeNotifier {
       LatLng b = this._inputModel.from;
       double catetoBC = pow(b.longitude - a.longitude, 2);
       double catetoAC = pow(b.latitude - a.latitude, 2);
-      double distance = sqrt(catetoAC + catetoBC) * (40.075 / 360);
+      double distance = sqrt(catetoAC + catetoBC) * (40.050 / 360);
       double zoom = 0;
       double remainder = distance * 1000;
       while (remainder > 0.01) {
@@ -178,7 +181,7 @@ class MapScreenController extends ChangeNotifier {
           }
         }();
       }
-      print("\n A DISTANCIA ENTRE OS PONTOS SÃO :: ${distance}KM -------- \n");
+      print("\n A DISTANCIA ENTRE OS PONTOS SÃO :: ${zoom}KM -------- \n");
     }
   }
 
@@ -190,19 +193,20 @@ class MapScreenController extends ChangeNotifier {
     final int fromHash = this._inputModel.fromController.hashCode;
     final int currentHash = this._inputModel.currentLocationsModifier.hashCode;
     final int whereHash = this._inputModel.whereController.hashCode;
-    closeModal(context);
     if (fromHash == currentHash) {
       this._inputModel.from = LatLng(coord.latitude, coord.longitude);
-      calculateDistance();
       this._inputModel.fromController.text = "";
+      closeModal(context);
+      calculateDistance();
       this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
       return;
     }
     if (whereHash == currentHash) {
       this._inputModel.where = LatLng(coord.latitude, coord.longitude);
-      calculateDistance();
       this._inputModel.whereController.text = "";
+      calculateDistance();
+      closeModal(context);
       this.directionsHandler(this.where, this.from);
       this.cleanLocationList();
       return;
