@@ -21,22 +21,6 @@ class _InputsModalState extends State<InputsModal> {
     super.initState();
   }
 
-  Widget containerList = Container();
-
-  Widget listAdress(MapScreenController inpt) {
-    return Container(
-      color: Colors.black87.withOpacity(0.5),
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: inpt.getLocations().length,
-        itemBuilder: (BuildContext context, int index) {
-          // print(inpt.getLocations());
-          return Text("kasd");
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MapScreenController>(context);
@@ -58,7 +42,7 @@ class _InputsModalState extends State<InputsModal> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                          height: widget.screenSize.height / 4,
+                          height: widget.screenSize.height / 3.2,
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               color: Colors.black87.withOpacity(0.5),
@@ -78,13 +62,8 @@ class _InputsModalState extends State<InputsModal> {
                                       style: TextStyle(color: Colors.white54),
                                       controller:
                                           inputController.fromController,
-                                      onChanged: (txt) {
-                                        if (inputController.isInputFrom) {
-                                          inputController.isInputFrom = false;
-                                          return;
-                                        }
-                                        inputController.setFrom(txt);
-                                      },
+                                      onChanged: (txt) =>
+                                          inputController.setFrom(txt),
                                       decoration: InputDecoration(
                                           hintStyle:
                                               TextStyle(color: Colors.white54),
@@ -120,7 +99,7 @@ class _InputsModalState extends State<InputsModal> {
                                 ],
                               ))),
                       Expanded(
-                          child: inputController.getLocations().isNotEmpty
+                          child: inputController.locations.isNotEmpty
                               ? Container(
                                   height: widget.screenSize.height / 7 * 3,
                                   decoration: BoxDecoration(
@@ -134,7 +113,7 @@ class _InputsModalState extends State<InputsModal> {
                                   child: ListView.builder(
                                       addRepaintBoundaries: true,
                                       itemCount:
-                                          inputController.getLocations().length,
+                                          inputController.locations.length,
                                       itemBuilder: (ctxt, index) {
                                         return new ListTile(
                                             onTap: () {
@@ -143,8 +122,7 @@ class _InputsModalState extends State<InputsModal> {
                                             },
                                             title: Text(
                                               inputController
-                                                  .getLocations()[index]
-                                                  .addressLine,
+                                                  .locations[index].placeName,
                                               style: TextStyle(
                                                 color: Colors.white54,
                                               ),

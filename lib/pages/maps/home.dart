@@ -145,12 +145,8 @@ class CoreMapsState extends State<CoreMaps> with TickerProviderStateMixin {
     }
 
     return SafeArea(
-        child: new Scaffold(
-      body: Stack(
-        children: [
-          GMap(),
-        ],
-      ),
+        child: Scaffold(
+      body: GMap(),
       drawer: Drawer(
         child: Container(
           color: const Color(0xff030d22),

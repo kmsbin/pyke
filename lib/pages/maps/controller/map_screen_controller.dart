@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:pi_mobile/pages/maps/api_connects/direction_connect.dart';
 import 'package:pi_mobile/pages/maps/model/input_model.dart';
+import 'package:pi_mobile/pages/maps/model/location_model.dart';
+import '../model/location_model.dart';
 
 import '../../../utils.dart';
 
@@ -16,28 +19,22 @@ class MapScreenController extends ChangeNotifier {
   MapboxMapController mapController;
   Address currentClientPosition;
   String routeType;
-
-  void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
-    var listDirect = await requestDirection(fromWaypoint, whereWaypoint);
-    this._inputModel.coordinates = unMarshal(listDirect);
-    // print(unMarshal(listDirect));
-    this.notifyListeners();
-  }
+  Position position;
+  LineOptions options;
 
   void updateScreen() => this.notifyListeners();
-  Future<Map<dynamic, dynamic>> requestDirection(
-      LatLng fromWaypoint, LatLng whereWaypoint) async {
-    Response response;
-    Dio dio = new Dio();
-    String accessPoint = Utils.ACCESS_POINT_DIRECT_API;
-    final String uri =
-        "https://api.mapbox.com/directions/v5/mapbox/$routeType/${fromWaypoint.longitude}%2C${fromWaypoint.latitude}%3B${whereWaypoint.longitude}%2C${whereWaypoint.latitude}?alternatives=true&geometries=geojson&steps=false&access_token=$accessPoint";
-    response = await dio.get(uri);
-    return response.data;
+
+  void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
+    var listDirect = await DirectionHandler.requestDirection(
+        fromWaypoint, whereWaypoint, routeType);
+    this._inputModel.coordinates = DirectionHandler.unMarshal(listDirect);
+    this.notifyListeners();
   }
 
   LatLng get where => this._inputModel.where;
   LatLng get from => this._inputModel.from;
+  List<Location> get locations => this._inputModel.locations;
+  set locations(locate) => this._inputModel.locations = locate;
 
   List<LatLng> get coordinates => this._inputModel.coordinates;
 
@@ -54,44 +51,26 @@ class MapScreenController extends ChangeNotifier {
     this.notifyListeners();
   }
 
-  set where(dynamic newWhere) {
-    this._inputModel.where = newWhere;
-    this.notifyListeners();
-  }
-
-  set isInputFrom(bool isInputFrom) {
-    this._inputModel.isInputFrom = isInputFrom;
-  }
-
-  set isInputWhere(bool isInputWhere) {
-    this._inputModel.isInputWhere = isInputWhere;
-  }
-
-  List<LatLng> unMarshal(Map req) {
-    List rawCoordinates = req['routes'].first['geometry']['coordinates'];
-    List<LatLng> coordinates = new List<LatLng>();
-    rawCoordinates
-        .forEach((e) async => coordinates.add(LatLng(e?.last, e?.first)));
-    // print("\n----- $coordinates --------\n");
-    return coordinates;
-  }
-
   void setWhere(String newWhere) async {
     if (this._inputModel.backupWhere != newWhere) {
-      this._inputModel.backupWhere = newWhere;
       setLocations(this._inputModel.whereController.text);
+      this._inputModel.backupWhere = newWhere;
     }
-    if (this.currentLocationsModifier != this.whereController) {
-      this.currentLocationsModifier = this.whereController;
+    if (this.currentLocationsModifier != this._inputModel.whereController) {
+      this.currentLocationsModifier = this._inputModel.whereController;
+      this.cleanLocationList();
     }
   }
 
   void setFrom(String newFrom) async {
     if (this._inputModel.backupFrom != newFrom) {
       this._inputModel.backupFrom = newFrom;
-      this._inputModel.currentLocationsModifier =
-          this._inputModel.fromController;
+      // this._inputModel.currentLocationsModifier = this._inputModel.fromController;
       setLocations(this._inputModel.fromController.text);
+    }
+    if (this.currentLocationsModifier != this._inputModel.fromController) {
+      this.currentLocationsModifier = this._inputModel.fromController;
+      this.cleanLocationList();
     }
   }
 
@@ -110,18 +89,35 @@ class MapScreenController extends ChangeNotifier {
   void setLocations(String query) async {
     if (query.isNotEmpty) {
       try {
-        List<Address> newLoc =
-            await Geocoder.local.findAddressesFromQuery(query);
-        List<Address> filtred = List<Address>();
-        newLoc.forEach((address) {
-          //adminArea: Estado
-          if (address.adminArea == this.currentClientPosition?.adminArea) {
-            // print("\n-----------------Location: zsdfgbnsdb\n");
-            filtred.add(address);
-          }
+        // print("antes de buscar os address");
+        String accessPoint = Utils.ACCESS_POINT_DIRECT_API;
+        Response response;
+        response = await Dio().get(
+            "https://api.mapbox.com/geocoding/v5/mapbox.places/$query ${this.currentClientPosition?.adminArea}.json?access_token=$accessPoint");
+        Locations loc = Locations(response.data);
+
+        locations = loc.location;
+        // print("\n\n\n init counting");
+        locations.forEach((element) {
+          // print("\n latitude item: ${element.placeName}");
         });
 
-        this._inputModel.locations = filtred;
+        // print(
+        // "\n\n\n\n ${loc.location.first.coordinates.latitude}, ${loc.location.first.coordinates.longitude} \n\n\n");
+        // List<Address> newLoc =
+        //     await Geocoder.local.findAddressesFromQuery(query);
+
+        // List<Address> filtred = List<Address>();
+        // print(newLoc);
+        // newLoc.forEach((address) {
+        //   //adminArea: Estado
+        //   if (address.adminArea == this.currentClientPosition?.adminArea) {
+        //     // print("\n-----------------Location: zsdfgbnsdb\n");
+        //     filtred.add(address);
+        //   }
+        // });
+
+        // this._inputModel.locations = filtred;
         notifyListeners();
         // print(newLoc);
       } catch (err) {
@@ -132,83 +128,61 @@ class MapScreenController extends ChangeNotifier {
     this.cleanLocationList();
   }
 
-  void openModal() {
-    this._inputModel.whereController.text = '';
-  }
-
   void cleanLocationList() {
     this._inputModel.locations = [];
     notifyListeners();
-  }
-
-  List<Address> getLocations() {
-    return this._inputModel.locations;
   }
 
   void closeModal(BuildContext context) {
     print(
         "\n -------- ${this._inputModel.where}  -----  ${this._inputModel.from}");
     if (this.isShowModal) {
+      this._inputModel.where = null;
+      this._inputModel.from = null;
+      this._inputModel.fromController.text = "";
+      this._inputModel.whereController.text = "";
+      cleanLocationList();
+      notifyListeners();
       Navigator.pop(context);
     }
   }
 
-  void calculateDistance() {
-    if (this.isShowModal) {
-      LatLng a = this._inputModel.where;
-      LatLng b = this._inputModel.from;
-      double catetoBC = pow(b.longitude - a.longitude, 2);
-      double catetoAC = pow(b.latitude - a.latitude, 2);
-      double distance = sqrt(catetoAC + catetoBC) * (40.050 / 360);
-      double zoom = 0;
-      double remainder = distance * 1000;
-      while (remainder > 0.01) {
-        () {
-          if (remainder > 0.01) {
-            zoom = zoom + 0.01;
-            remainder = remainder / 2;
-            return;
-          }
-          if (remainder > 0.1) {
-            zoom = zoom + 0.1;
-            remainder = remainder / 2;
-            return;
-          }
-          if (remainder > 0) {
-            zoom++;
-            remainder = remainder / 2;
-            return;
-          }
-        }();
-      }
-      print("\n A DISTANCIA ENTRE OS PONTOS SÃO :: ${zoom}KM -------- \n");
+  void setOptions() {
+    if (this._inputModel.coordinates.length != 0) {
+      final optionsLine = new LineOptions(
+        geometry: this._inputModel.coordinates,
+        lineColor: "#D31B77",
+        lineWidth: 10.0,
+        draggable: false,
+        lineOpacity: 1.0,
+        lineBlur: 1.0,
+      );
+      mapController?.addLine(optionsLine);
+      // mapController.updateLine(snapshot.data.p, changes)
+      mapController?.clearLines();
+      notifyListeners();
     }
   }
 
   void onSelectedItem(int index, context) {
     mapController.clearLines();
     this._inputModel.currentLocationsModifier.text =
-        this.getLocations()[index].addressLine;
-    Coordinates coord = this.getLocations()[index].coordinates;
+        this.locations[index].placeName;
     final int fromHash = this._inputModel.fromController.hashCode;
     final int currentHash = this._inputModel.currentLocationsModifier.hashCode;
     final int whereHash = this._inputModel.whereController.hashCode;
     if (fromHash == currentHash) {
-      this._inputModel.from = LatLng(coord.latitude, coord.longitude);
-      this._inputModel.fromController.text = "";
-      closeModal(context);
-      calculateDistance();
+      this._inputModel.from = this.locations[index].coordinates;
       this.directionsHandler(this.where, this.from);
-      this.cleanLocationList();
+      closeModal(context);
+      this._inputModel.currentLocationsModifier = null;
       return;
     }
     if (whereHash == currentHash) {
-      this._inputModel.where = LatLng(coord.latitude, coord.longitude);
-      this._inputModel.whereController.text = "";
-      calculateDistance();
-      closeModal(context);
+      this._inputModel.where = this.locations[index].coordinates;
       this.directionsHandler(this.where, this.from);
-      this.cleanLocationList();
+      closeModal(context);
+      this._inputModel.currentLocationsModifier = null;
       return;
     }
   }

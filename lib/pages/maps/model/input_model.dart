@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:pi_mobile/pages/maps/model/location_model.dart';
 
 class InputModel {
   final TextEditingController whereController = new TextEditingController();
@@ -16,7 +17,7 @@ class InputModel {
   LatLng _from;
   LatLng _where;
   bool firstRender = true;
-  List<Address> locations = [];
+  List<Location> locations = [];
 
   LatLng get where => this._where;
   String get backupFrom => this._backupFrom;
