@@ -4,6 +4,14 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import '../../../utils.dart';
 
 class DirectionHandler {
+  static Future<List<LatLng>> directionHandler(
+      LatLng fromWaypoint, LatLng whereWaypoint, String routeType) async {
+    List<LatLng> req;
+    var map = await requestDirection(fromWaypoint, whereWaypoint, routeType);
+    req = unMarshal(map);
+    return req;
+  }
+
   static Future<Map<dynamic, dynamic>> requestDirection(
       LatLng fromWaypoint, LatLng whereWaypoint, String routeType) async {
     Response response;

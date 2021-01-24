@@ -3,7 +3,7 @@ import 'package:pi_mobile/pages/maps/controller/map_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 class InputsModal extends StatefulWidget {
-  Size screenSize;
+  final Size screenSize;
   final String routeType;
 
   InputsModal({this.screenSize, this.routeType}) : super();
@@ -14,7 +14,6 @@ class InputsModal extends StatefulWidget {
 
 class _InputsModalState extends State<InputsModal> {
   final _formKey = GlobalKey<FormState>();
-  MapScreenController provider;
 
   @override
   void initState() {
@@ -23,7 +22,7 @@ class _InputsModalState extends State<InputsModal> {
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<MapScreenController>(context);
+    var provider = Provider.of<MapScreenController>(context);
     print(widget.routeType);
     provider.routeType = widget.routeType;
     return Scaffold(

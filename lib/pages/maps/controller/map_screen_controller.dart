@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +16,29 @@ class MapScreenController extends ChangeNotifier {
   InputModel _inputModel = new InputModel();
   MapboxMapController mapController;
   Address currentClientPosition;
-  String routeType;
+  String _routeType = "cycling";
   Position position;
   LineOptions options;
 
   void updateScreen() => this.notifyListeners();
 
   void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
-    var listDirect = await DirectionHandler.requestDirection(
+    this._inputModel.coordinates = await DirectionHandler.directionHandler(
         fromWaypoint, whereWaypoint, routeType);
-    this._inputModel.coordinates = DirectionHandler.unMarshal(listDirect);
+    this._inputModel.secureCoordinates =
+        await DirectionHandler.directionHandler(
+            fromWaypoint, whereWaypoint, "cycling");
+    this._inputModel.fastCoordinates = await DirectionHandler.directionHandler(
+        fromWaypoint, whereWaypoint, "walking");
+
     this.notifyListeners();
   }
+
+  set routeType(String newRoute) {
+    _routeType = newRoute;
+  }
+
+  get routeType => this._routeType;
 
   LatLng get where => this._inputModel.where;
   LatLng get from => this._inputModel.from;
@@ -42,6 +51,14 @@ class MapScreenController extends ChangeNotifier {
   TextEditingController get whereController => this._inputModel.whereController;
   TextEditingController get currentLocationsModifier =>
       this._inputModel.currentLocationsModifier;
+
+  get secureCoordinates => this._inputModel.secureCoordinates;
+  get fastCoordinates => this._inputModel.fastCoordinates;
+
+  set coordinates(List<LatLng> newcoord) {
+    _inputModel.coordinates = newcoord;
+    notifyListeners();
+  }
 
   bool get isInputFrom => this._inputModel.isInputFrom;
   bool get isInputWhere => this._inputModel.isInputWhere;
@@ -82,7 +99,6 @@ class MapScreenController extends ChangeNotifier {
       this._inputModel.from = LatLng(position.latitude, position.longitude);
       this.currentClientPosition = address.first;
       this._inputModel.fromController.text = address.first.addressLine;
-      notifyListeners();
     }
   }
 
