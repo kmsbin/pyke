@@ -1,16 +1,42 @@
-# pi_mobile
+# pi
 
-A new Flutter project.
+## Uma alternativa para mobilidade urbana 
+O conceito central da aplicação é dar mais conforto a ciclistas fazendo a combinação de rotas, inicialmente divididas em 2 categorias: para ciclistas esportivos e para ciclistas casuais.
 
-## Getting Started
+### Esportivo 
+Neste modo ao escolher o ponto de partida e o de chegada a aplicação irá calcular o caminho mais rápido entre eles.
 
-This project is a starting point for a Flutter application.
+### Casual
+Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial no calculo da rota: ciclovias e ruas pouco movimentadas que serão feitos com dados próprios da aplicação.
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologias usadas 
+- Flutter 
+- Provider 
+- MapBox-gl
+- MapBox API
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Instalação
+Com o [flutter](https://flutter.dev/docs/get-started/install) instalado corretamente basta instalar as dependências com:
+
+
+```bash
+flutter pub get
+```
+
+e adicionar uma arquivo chamado keys.dart contendo:
+```dart
+const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
+
+```
+
+## O que já foi feito
+- asdf
+
+## o que ainda a para fazer 
+- migrar do provider para o BloC
+## Contribuição
+Qualquer contribuição será bem-vinda basta dar um pull request :)
+
+## Licença
+[MIT](https://choosealicense.com/licenses/mit/)
