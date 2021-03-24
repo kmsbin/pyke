@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pi_mobile/pages/maps/controller/map_screen_controller.dart';
+import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:pi_mobile/pages/maps/input_modal.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ class ControllScreen extends StatefulWidget {
 
 class _ControllScreenState extends State<ControllScreen>
     with SingleTickerProviderStateMixin {
-  List<Animation<Offset>> navOffset = new List<Animation<Offset>>();
+  List<Animation<Offset>> navOffset = [];
   Animation colorButton;
   AnimationController _controller;
   bool isRun = false;

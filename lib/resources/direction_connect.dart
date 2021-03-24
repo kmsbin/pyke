@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-import '../../../utils.dart';
+import 'package:pi_mobile/utils.dart';
 
 class DirectionHandler {
   static Future<List<LatLng>> directionHandler(
@@ -25,7 +25,7 @@ class DirectionHandler {
 
   static List<LatLng> unMarshal(Map req) {
     List rawCoordinates = req['routes'].first['geometry']['coordinates'];
-    List<LatLng> coordinates = new List<LatLng>();
+    List<LatLng> coordinates = [];
     rawCoordinates
         .forEach((e) async => coordinates.add(LatLng(e?.last, e?.first)));
     // print("\n----- $coordinates --------\n");

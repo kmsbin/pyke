@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:pi_mobile/pages/maps/api_connects/direction_connect.dart';
-import 'package:pi_mobile/pages/maps/model/input_model.dart';
-import 'package:pi_mobile/pages/maps/model/location_model.dart';
-import '../model/location_model.dart';
+import 'package:pi_mobile/resources/direction_connect.dart';
+import 'package:pi_mobile/model/input_model.dart';
+import 'package:pi_mobile/model/location_model.dart';
 
-import '../../../utils.dart';
+import 'package:pi_mobile/utils.dart';
+
+enum routeType { cycling, walking }
 
 class MapScreenController extends ChangeNotifier {
   String getWhere() => this._inputModel.whereController.text;
@@ -82,7 +83,6 @@ class MapScreenController extends ChangeNotifier {
   void setFrom(String newFrom) async {
     if (this._inputModel.backupFrom != newFrom) {
       this._inputModel.backupFrom = newFrom;
-      // this._inputModel.currentLocationsModifier = this._inputModel.fromController;
       setLocations(this._inputModel.fromController.text);
     }
     if (this.currentLocationsModifier != this._inputModel.fromController) {
@@ -105,7 +105,6 @@ class MapScreenController extends ChangeNotifier {
   void setLocations(String query) async {
     if (query.isNotEmpty) {
       try {
-        // print("antes de buscar os address");
         String accessPoint = Utils.ACCESS_POINT_DIRECT_API;
         Response response;
         response = await Dio().get(
@@ -113,29 +112,7 @@ class MapScreenController extends ChangeNotifier {
         Locations loc = Locations(response.data);
 
         locations = loc.location;
-        // print("\n\n\n init counting");
-        locations.forEach((element) {
-          // print("\n latitude item: ${element.placeName}");
-        });
-
-        // print(
-        // "\n\n\n\n ${loc.location.first.coordinates.latitude}, ${loc.location.first.coordinates.longitude} \n\n\n");
-        // List<Address> newLoc =
-        //     await Geocoder.local.findAddressesFromQuery(query);
-
-        // List<Address> filtred = List<Address>();
-        // print(newLoc);
-        // newLoc.forEach((address) {
-        //   //adminArea: Estado
-        //   if (address.adminArea == this.currentClientPosition?.adminArea) {
-        //     // print("\n-----------------Location: zsdfgbnsdb\n");
-        //     filtred.add(address);
-        //   }
-        // });
-
-        // this._inputModel.locations = filtred;
         notifyListeners();
-        // print(newLoc);
       } catch (err) {
         print(err);
       }
@@ -174,14 +151,13 @@ class MapScreenController extends ChangeNotifier {
         lineBlur: 1.0,
       );
       mapController?.addLine(optionsLine);
-      // mapController.updateLine(snapshot.data.p, changes)
       mapController?.clearLines();
       notifyListeners();
     }
   }
 
   void onSelectedItem(int index, context) {
-    mapController.clearLines();
+    mapController?.clearLines();
     this._inputModel.currentLocationsModifier.text =
         this.locations[index].placeName;
     final int fromHash = this._inputModel.fromController.hashCode;

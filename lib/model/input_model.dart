@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:pi_mobile/pages/maps/model/location_model.dart';
+import 'package:pi_mobile/model/location_model.dart';
 
 class InputModel {
   final TextEditingController whereController = new TextEditingController();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_mobile/pages/maps/controller/map_screen_controller.dart';
+import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 class InputsModal extends StatefulWidget {

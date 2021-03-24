@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class Locations {
-  List<Location> location = List<Location>();
+  List<Location> location = [];
   String placeName;
   LatLng coordinates;
   // Locations(location);

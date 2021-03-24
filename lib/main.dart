@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_mobile/pages/maps/home.dart';
-import 'package:pi_mobile/pages/maps/controller/map_screen_controller.dart';
+import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());

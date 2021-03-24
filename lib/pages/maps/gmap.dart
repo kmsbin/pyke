@@ -3,7 +3,7 @@ import 'package:pi_mobile/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-import 'controller/map_screen_controller.dart';
+import 'package:pi_mobile/controller/map_screen_controller.dart';
 
 class GMap extends StatelessWidget {
   @override
@@ -11,7 +11,6 @@ class GMap extends StatelessWidget {
     var provider = Provider.of<MapScreenController>(context);
     var position = Utils.position;
     position.then((value) => provider.initFromInput(value));
-
     return Container(
         color: const Color(0xff030d22),
         child: FutureBuilder(
@@ -19,26 +18,8 @@ class GMap extends StatelessWidget {
             builder: (context, snapshot) {
               print("\n----------------BUILDING------------------\n");
               if (snapshot.hasData) {
-                // provider.position(snapshot.data);
-                // provider.position = snapshot.data;
                 provider.initFromInput(snapshot.data);
                 provider.position = snapshot.data;
-                // _createPolylines();
-                // if (provider.isShowModal) {
-                //   if (provider.coordinates.length != 0) {
-                //     final LineOptions options = new LineOptions(
-                //       geometry: provider.coordinates,
-                //       lineColor: "#D31B77",
-                //       lineWidth: 10.0,
-                //       draggable: false,
-                //       lineOpacity: 1.0,
-                //       lineBlur: 1.0,
-                //     );
-                //     provider.mapController?.addLine(options);
-                //     // mapController.updateLine(snapshot.data.p, changes)
-                //     provider.mapController?.clearLines();
-                //   }
-                // }
                 provider.setOptions();
                 return MapboxMap(
                   compassEnabled: true,
