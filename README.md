@@ -30,11 +30,10 @@ const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
 
 ```
 
-## O que já foi feito
-- asdf
+## o que já foi feito?
+- [X] Conexão e tratamento da aplicação com as apis mapbox
+- [ ] Migrar do provider para o Bloc pattern 
 
-## o que ainda a para fazer 
-- migrar do provider para o BloC
 ## Contribuição
 Qualquer contribuição será bem-vinda basta dar um pull request :)
 
