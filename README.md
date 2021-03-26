@@ -45,6 +45,10 @@ const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
 - [ ] testes unitários
 
 #### :tada: :tada: Lançamento do app :tada: :tada:
+## possiveis features após lançamento
+- Adição de propagandas para monetização
+- Criação de contas premium (sem propaganda)
+- Busca de pessoas para população do banco de dados 
 
 ## Contribuição
 Qualquer contribuição será bem-vinda basta dar um pull request :)
