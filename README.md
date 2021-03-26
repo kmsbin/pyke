@@ -43,7 +43,8 @@ const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
 - [ ] Obter mais dados do usuário
 - [ ] Melhorar o design da rota
 - [ ] testes unitários
-- :tada: :tada: Lançamento do app :tada: :tada:
+
+#### :tada: :tada: Lançamento do app :tada: :tada:
 
 ## Contribuição
 Qualquer contribuição será bem-vinda basta dar um pull request :)
