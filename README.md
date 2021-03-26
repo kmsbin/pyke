@@ -30,12 +30,21 @@ const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
 
 ```
 
-## o que já foi feito?
-- [X] Conexão e tratamento da aplicação com as apis mapbox
+## Como está andando a aplicação?
+- [X] Customização do mapa do app
+- [X] Obter a Localização do usuário (com a sua permissão) 
+- [X] Buscar e listar as localizações conforme o usuário digita sua localização
+- [X] Desenhar as rotas escolhidas na aplicação
+- [X] Conexão e tratamento dos dados com as apis mapbox
+- [ ] Carregar do banco dados de rotas customizadas
+- [ ] Login com JWT
+- [ ] Permitir o usuário escolher sua rota favorita
+- [ ] Obter mais dados do usuário
+- [ ] Melhorar o design da rota
 - [ ] Migrar do provider para o Bloc pattern 
 
 ## Contribuição
 Qualquer contribuição será bem-vinda basta dar um pull request :)
 
 ## Licença
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://www.mit.edu/~amini/LICENSE.md)
