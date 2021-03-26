@@ -1,4 +1,4 @@
-# pi
+# pyke
 
 ## Uma alternativa para mobilidade urbana 
 O conceito central da aplicação é dar mais conforto a ciclistas fazendo a combinação de rotas, inicialmente divididas em 2 categorias: para ciclistas esportivos e para ciclistas casuais.
