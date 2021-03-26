@@ -42,6 +42,7 @@ const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
 - [ ] Obter mais dados do usuário
 - [ ] Melhorar o design da rota
 - [ ] Migrar do provider para o Bloc pattern 
+- [ ] testes unitários
 
 ## Contribuição
 Qualquer contribuição será bem-vinda basta dar um pull request :)
