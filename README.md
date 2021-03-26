@@ -36,13 +36,14 @@ const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
 - [X] Buscar e listar as localizações conforme o usuário digita sua localização
 - [X] Desenhar as rotas escolhidas na aplicação
 - [X] Conexão e tratamento dos dados com as apis mapbox
+- [ ] Migrar do provider para o Bloc pattern 
 - [ ] Carregar do banco dados de rotas customizadas
 - [ ] Login com JWT
 - [ ] Permitir o usuário escolher sua rota favorita
 - [ ] Obter mais dados do usuário
 - [ ] Melhorar o design da rota
-- [ ] Migrar do provider para o Bloc pattern 
 - [ ] testes unitários
+:tada: :tada: lançamento do app :tada: :tada:
 
 ## Contribuição
 Qualquer contribuição será bem-vinda basta dar um pull request :)
