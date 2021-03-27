@@ -33,6 +33,7 @@ dependencies:
   geocoding: ^1.0.5
   geocoder: ^0.2.1
   flutter_polyline_points: ^0.2.4
+  flutter_dotenv: ^3.1.0 
   provider: ^4.3.2+2
   mapbox_gl: ^0.9.0
   dio: ^3.0.10
@@ -56,6 +57,7 @@ flutter:
   assets:
     - assets/map_style.json
     - assets/images/user_profile.png
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,5 +1,6 @@
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'keys.dart';
 
 class Utils {
@@ -28,6 +29,6 @@ class Utils {
     }
   }
 
-  static const String API_KEY = "AIzaSyBvszasdqF8iSAMuV9DLXd50TxYRtJaVp0";
+  static final String API_KEY = env['MAPBOX_KEY'];
   static const String ACCESS_POINT_DIRECT_API = MAPBOX_KEY;
 }
