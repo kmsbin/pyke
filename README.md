@@ -24,9 +24,9 @@ Com o [flutter](https://flutter.dev/docs/get-started/install) instalado corretam
 flutter pub get
 ```
 
-e adicionar uma arquivo chamado keys.dart contendo:
+e criar um arquivo ".env" com o seguinte conteúdo: 
 ```dart
-const String MAPBOX_KEY = 'SUA_CHAVE_DO_MAPBOX';
+MAPBOX_KEY=SUA_CHAVE_DO_MAPBOX;
 
 ```
 
