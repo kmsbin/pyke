@@ -8,9 +8,9 @@ import 'package:pi_mobile/controller/map_screen_controller.dart';
 class GMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<MapScreenController>(context);
+    // var provider = Provider.of<MapScreenController>(context);
     var position = Utils.position;
-    position.then((value) => provider.initFromInput(value));
+    // position.then((value) => provider.initFromInput(value));
     return Container(
         color: const Color(0xff030d22),
         child: FutureBuilder(
@@ -18,16 +18,16 @@ class GMap extends StatelessWidget {
             builder: (context, snapshot) {
               print("\n----------------BUILDING------------------\n");
               if (snapshot.hasData) {
-                provider.initFromInput(snapshot.data);
-                provider.position = snapshot.data;
-                provider.setOptions();
+                // provider.initFromInput(snapshot.data);
+                // provider.position = snapshot.data;
+                // provider.setOptions();
                 return MapboxMap(
                   compassEnabled: true,
                   minMaxZoomPreference: MinMaxZoomPreference(12, 16.5),
                   myLocationTrackingMode:
                       MyLocationTrackingMode.TrackingCompass,
                   onMapCreated: (MapboxMapController currentController) {
-                    provider.mapController = currentController;
+                    // provider.mapController = currentController;
                   },
                   styleString:
                       "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
