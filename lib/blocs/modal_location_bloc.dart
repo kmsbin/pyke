@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pi_mobile/model/location_model.dart';
@@ -8,7 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:pi_mobile/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ModalLocationBloc {
+class ModalLocationBloc extends BlocBase {
   final ModalLocationModel locationModel = ModalLocationModel();
   Map inputs;
 
@@ -43,7 +44,8 @@ class ModalLocationBloc {
         Locations loc = Locations(response.data);
 
         locationModel.locations = loc.location;
-        _controller.add(locationModel.locations);
+        input.add(locationModel.locations);
+        _controller.add(locationModel);
       } catch (err) {
         print(err);
       }
@@ -51,8 +53,10 @@ class ModalLocationBloc {
     }
   }
 
-  void onSelectedItem() {
-    inputs[locationModel.currentModifier].text = "";
+  void onSelectedItem(int index) {
+    inputs[locationModel.currentModifier].text =
+        locationModel.locations[index].placeName;
+    locationModel.locations = [];
     _controller.add(inputs);
     _controller.add(locationModel);
   }
@@ -61,7 +65,9 @@ class ModalLocationBloc {
     _controller.add(data);
   }
 
+  @override
   void dispose() {
     _controller.close();
+    super.dispose();
   }
 }

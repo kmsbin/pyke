@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:pi_mobile/app_module.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
 import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:pi_mobile/model/modal_location_model.dart';
@@ -66,8 +67,10 @@ class _InputsModalState extends State<InputsModal> {
                                           _modalController.fromTextController,
                                       style: TextStyle(color: Colors.white54),
                                       onChanged: (String data) {
-                                        _modalController.displayTextValue(
-                                            data, InputModifier.from);
+                                        AppModule.to
+                                            .bloc<ModalLocationBloc>()
+                                            .displayTextValue(
+                                                data, InputModifier.from);
                                       },
                                       // onChanged: (txt) =>
                                       // inputController.setFrom(txt)
@@ -90,15 +93,11 @@ class _InputsModalState extends State<InputsModal> {
                                           _modalController.toTextController,
                                       style: TextStyle(color: Colors.white54),
                                       onChanged: (String data) {
-                                        _modalController.displayTextValue(
-                                            data, InputModifier.to);
+                                        AppModule.to
+                                            .bloc<ModalLocationBloc>()
+                                            .displayTextValue(
+                                                data, InputModifier.to);
                                       },
-                                      // controller:
-                                      //     inputController.whereController,
-                                      // onChanged: (text) {
-                                      //   inputController.setWhere(text);
-                                      //   // inputController.currentLocationsModifier = inputController.whereController;
-                                      // },
                                       decoration: InputDecoration(
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
@@ -122,24 +121,20 @@ class _InputsModalState extends State<InputsModal> {
                         padding:
                             EdgeInsets.all(widget.screenSize.height * 0.05),
                         child: StreamBuilder(
-                            stream: _modalController?.output,
-                            initialData: ListTile(
-                                title: Text(
-                              'Nenhuma localização ',
-                              style: TextStyle(
-                                color: Colors.white54,
-                              ),
-                            )),
+                            stream:
+                                AppModule.to.bloc<ModalLocationBloc>().output,
+                            initialData: ModalLocationBloc(),
                             builder: (context, snapshot) {
                               return ListView.builder(
                                   addRepaintBoundaries: true,
-                                  itemCount: _modalController.locations?.length,
+                                  itemCount: snapshot.data?.locations?.length,
                                   itemBuilder: (ctxt, index) {
-                                    return new ListTile(
-                                        onTap: _modalController.onSelectedItem,
+                                    return ListTile(
+                                        onTap: () =>
+                                            snapshot.data.onSelectedItem(index),
                                         title: Text(
-                                          _modalController
-                                              .locations[index]?.placeName,
+                                          snapshot.data?.locations[index]
+                                              ?.placeName,
                                           style: TextStyle(
                                             color: Colors.white54,
                                           ),

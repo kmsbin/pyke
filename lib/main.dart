@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_mobile/app_module.dart';
 import 'package:pi_mobile/pages/maps/home.dart';
 import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           title: 'Flutter Google Maps Demo',
-          home: CoreMaps(),
+          home: AppModule(),
         ));
   }
 }
