@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:pi_mobile/app_module.dart';
+import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
 import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:pi_mobile/model/modal_location_model.dart';
@@ -19,10 +20,10 @@ class InputsModal extends StatefulWidget {
 
 class _InputsModalState extends State<InputsModal> {
   final _formKey = GlobalKey<FormState>();
-  ModalLocationBloc _modalController = ModalLocationBloc();
-
+  ModalLocationBloc _modalController = AppModule.to.bloc<ModalLocationBloc>();
   @override
   void initState() {
+    AppModule.to.bloc<DirectionsBloc>().stream();
     super.initState();
   }
 
@@ -121,26 +122,21 @@ class _InputsModalState extends State<InputsModal> {
                         padding:
                             EdgeInsets.all(widget.screenSize.height * 0.05),
                         child: StreamBuilder(
-                            stream:
-                                AppModule.to.bloc<ModalLocationBloc>().output,
+                            stream: _modalController.output,
                             initialData: ModalLocationBloc(),
-                            builder: (context, snapshot) {
-                              return ListView.builder(
-                                  addRepaintBoundaries: true,
-                                  itemCount: snapshot.data?.locations?.length,
-                                  itemBuilder: (ctxt, index) {
-                                    return ListTile(
-                                        onTap: () =>
-                                            snapshot.data.onSelectedItem(index),
-                                        title: Text(
-                                          snapshot.data?.locations[index]
-                                              ?.placeName,
-                                          style: TextStyle(
-                                            color: Colors.white54,
-                                          ),
-                                        ));
-                                  });
-                            }),
+                            builder: (context, snapshot) => ListView.builder(
+                                addRepaintBoundaries: true,
+                                itemCount: snapshot.data?.locations?.length,
+                                itemBuilder: (ctxt, index) => ListTile(
+                                    onTap: () =>
+                                        _modalController.onSelectedItem(index),
+                                    title: Text(
+                                      _modalController
+                                          ?.locations[index]?.placeName,
+                                      style: TextStyle(
+                                        color: Colors.white54,
+                                      ),
+                                    )))),
                       )
                           //         : Container())
                           )
