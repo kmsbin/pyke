@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:pi_mobile/resources/direction_connect.dart';
 
 abstract class DirectionEvent extends Equatable {
   final LatLng fromWaypoint;
   final LatLng toWaypoint;
 
-  const DirectionEvent({this.fromWaypoint, this.toWaypoint});
+  const DirectionEvent(this.fromWaypoint, this.toWaypoint);
 
   drawDirections() {}
 
@@ -15,12 +15,12 @@ abstract class DirectionEvent extends Equatable {
 }
 
 class DirectionsFulled extends DirectionEvent {
-  const DirectionsFulled({fromWaypoint, toWaypoint})
-      : super(fromWaypoint: fromWaypoint, toWaypoint: toWaypoint);
+  const DirectionsFulled({fromWaypoint, toWaypoint}) : super(fromWaypoint, toWaypoint);
 
   @override
-  drawDirections() {
+  Future<List<LatLng>> drawDirections() async {
     print('ready to search');
+    return await DirectionHandler.directionHandler(fromWaypoint, toWaypoint, 'cycling');
   }
 }
 
@@ -30,6 +30,5 @@ class DirectionsHalfFulled extends DirectionEvent {
     print('NOT ready to search yet');
   }
 
-  DirectionsHalfFulled({fromWaypoint, toWaypoint})
-      : super(fromWaypoint: fromWaypoint, toWaypoint: toWaypoint);
+  DirectionsHalfFulled({fromWaypoint, toWaypoint}) : super(fromWaypoint, toWaypoint);
 }

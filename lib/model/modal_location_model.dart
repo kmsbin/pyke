@@ -14,6 +14,11 @@ class ModalLocationModel {
   List<Location> locations = [];
   InputModifier currentModifier = InputModifier.to;
   Position initialPosition = Position();
+
+  void cleanAllInputs() => inputs.forEach((key, value) {
+        value.textController.text = "";
+        value.coordinate = null;
+      });
 }
 
 class InputCoordinate {

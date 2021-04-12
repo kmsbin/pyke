@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
@@ -7,16 +6,20 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:pi_mobile/resources/direction_connect.dart';
 import 'package:pi_mobile/model/input_model.dart';
 import 'package:pi_mobile/model/location_model.dart';
+import 'package:pi_mobile/resources/locations_connect.dart';
 
-import 'package:pi_mobile/utils.dart';
+enum inputModifier { from, where }
 
-enum routeType { cycling, walking }
+extension InputModifierEx on inputModifier {
+  String get value => this.toString().split('.').last;
+}
 
 class MapScreenController extends ChangeNotifier {
   String getWhere() => this._inputModel.whereController.text;
   InputModel _inputModel = new InputModel();
   MapboxMapController mapController;
   Address currentClientPosition;
+  String currentInputModifier = inputModifier.from.value;
   String _routeType = "cycling";
   Position position;
   LineOptions options;
@@ -24,13 +27,9 @@ class MapScreenController extends ChangeNotifier {
   void updateScreen() => this.notifyListeners();
 
   void directionsHandler(LatLng fromWaypoint, LatLng whereWaypoint) async {
-    this._inputModel.coordinates = await DirectionHandler.directionHandler(
-        fromWaypoint, whereWaypoint, routeType);
-    this._inputModel.secureCoordinates =
-        await DirectionHandler.directionHandler(
-            fromWaypoint, whereWaypoint, "cycling");
-    this._inputModel.fastCoordinates = await DirectionHandler.directionHandler(
-        fromWaypoint, whereWaypoint, "walking");
+    this._inputModel.coordinates = await DirectionHandler.directionHandler(fromWaypoint, whereWaypoint, routeType);
+    this._inputModel.secureCoordinates = await DirectionHandler.directionHandler(fromWaypoint, whereWaypoint, "cycling");
+    this._inputModel.fastCoordinates = await DirectionHandler.directionHandler(fromWaypoint, whereWaypoint, "walking");
 
     this.notifyListeners();
   }
@@ -50,8 +49,7 @@ class MapScreenController extends ChangeNotifier {
 
   TextEditingController get fromController => this._inputModel.fromController;
   TextEditingController get whereController => this._inputModel.whereController;
-  TextEditingController get currentLocationsModifier =>
-      this._inputModel.currentLocationsModifier;
+  TextEditingController get currentLocationsModifier => this._inputModel.currentLocationsModifier;
 
   get secureCoordinates => this._inputModel.secureCoordinates;
   get fastCoordinates => this._inputModel.fastCoordinates;
@@ -86,6 +84,7 @@ class MapScreenController extends ChangeNotifier {
       setLocations(this._inputModel.fromController.text);
     }
     if (this.currentLocationsModifier != this._inputModel.fromController) {
+      this.currentInputModifier = inputModifier.from.value;
       this.currentLocationsModifier = this._inputModel.fromController;
       this.cleanLocationList();
     }
@@ -94,8 +93,7 @@ class MapScreenController extends ChangeNotifier {
   void initFromInput(Position position) async {
     if (this._inputModel.firstRender) {
       this._inputModel.firstRender = false;
-      List<Address> address = await Geocoder.local.findAddressesFromCoordinates(
-          Coordinates(position.latitude, position.longitude));
+      List<Address> address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(position.latitude, position.longitude));
       this._inputModel.from = LatLng(position.latitude, position.longitude);
       this.currentClientPosition = address.first;
       this._inputModel.fromController.text = address.first.addressLine;
@@ -103,21 +101,13 @@ class MapScreenController extends ChangeNotifier {
   }
 
   void setLocations(String query) async {
-    if (query.isNotEmpty) {
-      try {
-        String accessPoint = Utils.ACCESS_POINT_DIRECT_API;
-        Response response;
-        response = await Dio().get(
-            "https://api.mapbox.com/geocoding/v5/mapbox.places/$query ${this.currentClientPosition?.adminArea}.json?access_token=$accessPoint");
-        Locations loc = Locations(response.data);
-
-        locations = loc.location;
-        notifyListeners();
-      } catch (err) {
-        print(err);
-      }
-      return;
-    }
+    // if (query.isNotEmpty) {
+    //   LocationsConnect.locationHandler(query, currentClientPosition)
+    //       .then((loc) {
+    //     locations = loc;
+    //   });
+    //   return;
+    // }
     this.cleanLocationList();
   }
 
@@ -127,8 +117,7 @@ class MapScreenController extends ChangeNotifier {
   }
 
   void closeModal(BuildContext context) {
-    print(
-        "\n -------- ${this._inputModel.where}  -----  ${this._inputModel.from}");
+    print("\n -------- ${this._inputModel.where}  -----  ${this._inputModel.from}");
     if (this.isShowModal) {
       this._inputModel.where = null;
       this._inputModel.from = null;
@@ -158,8 +147,7 @@ class MapScreenController extends ChangeNotifier {
 
   void onSelectedItem(int index, context) {
     mapController?.clearLines();
-    this._inputModel.currentLocationsModifier.text =
-        this.locations[index].placeName;
+    this._inputModel.currentLocationsModifier.text = this.locations[index].placeName;
     final int fromHash = this._inputModel.fromController.hashCode;
     final int currentHash = this._inputModel.currentLocationsModifier.hashCode;
     final int whereHash = this._inputModel.whereController.hashCode;
@@ -179,8 +167,7 @@ class MapScreenController extends ChangeNotifier {
     }
   }
 
-  bool get isShowModal =>
-      this._inputModel.where != null && this._inputModel.from != null;
+  bool get isShowModal => this._inputModel.where != null && this._inputModel.from != null;
 
   String getFrom() => this._inputModel.fromController.text;
 }

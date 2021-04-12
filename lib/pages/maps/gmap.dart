@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi_mobile/app_module.dart';
+import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -24,16 +26,13 @@ class GMap extends StatelessWidget {
                 return MapboxMap(
                   compassEnabled: true,
                   minMaxZoomPreference: MinMaxZoomPreference(12, 16.5),
-                  myLocationTrackingMode:
-                      MyLocationTrackingMode.TrackingCompass,
+                  myLocationTrackingMode: MyLocationTrackingMode.TrackingCompass,
                   onMapCreated: (MapboxMapController currentController) {
-                    // provider.mapController = currentController;
+                    AppModule.to.bloc<DirectionsBloc>().mapController = currentController;
                   },
-                  styleString:
-                      "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
+                  styleString: "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
                   initialCameraPosition: CameraPosition(
-                    target:
-                        LatLng(snapshot.data.latitude, snapshot.data.longitude),
+                    target: LatLng(snapshot.data.latitude, snapshot.data.longitude),
                     zoom: 15,
                   ),
                 );
@@ -42,8 +41,7 @@ class GMap extends StatelessWidget {
                   color: const Color(0xff030d22),
                   child: Center(
                     child: CircularProgressIndicator(
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xffD31B77)),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xffD31B77)),
                       backgroundColor: const Color(0xff030d22),
                     ),
                   ),
