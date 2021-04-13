@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:pi_mobile/app_module.dart';
 import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
-import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:pi_mobile/model/modal_location_model.dart';
-import 'package:pi_mobile/utils.dart';
-import 'package:provider/provider.dart';
 
 class InputsModal extends StatefulWidget {
   final Size screenSize;
   final String routeType;
+  final BuildContext modalCtxt;
 
-  InputsModal({this.screenSize, this.routeType}) : super();
+  InputsModal({this.screenSize, this.routeType, @required this.modalCtxt}) : super();
 
   @override
   _InputsModalState createState() => _InputsModalState();
@@ -24,18 +21,19 @@ class _InputsModalState extends State<InputsModal> {
   @override
   void initState() {
     AppModule.to.bloc<DirectionsBloc>().stream();
+    AppModule.to.bloc<DirectionsBloc>().modalContext = widget.modalCtxt;
     super.initState();
   }
 
   @override
   void dispose() {
-    _modalController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // print(widget.routeType);
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -43,10 +41,10 @@ class _InputsModalState extends State<InputsModal> {
                 padding: const EdgeInsets.all(10),
                 child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                   Container(
-                      height: widget.screenSize.height / 3.2,
+                      height: screenSize.height / 3.2,
                       margin: const EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(color: Colors.black87.withOpacity(0.5), borderRadius: BorderRadius.all(Radius.circular(widget.screenSize.height * 0.05))),
-                      padding: EdgeInsets.all(widget.screenSize.height * 0.05),
+                      decoration: BoxDecoration(color: Colors.black87.withOpacity(0.5), borderRadius: BorderRadius.all(Radius.circular(screenSize.height * 0.05))),
+                      padding: EdgeInsets.all(screenSize.height * 0.05),
                       child: Form(
                           onChanged: () {},
                           key: _formKey,
@@ -88,9 +86,9 @@ class _InputsModalState extends State<InputsModal> {
                           ))),
                   Expanded(
                       child: Container(
-                    height: widget.screenSize.height / 7 * 3,
-                    decoration: BoxDecoration(color: Colors.black87.withOpacity(0.5), borderRadius: BorderRadius.all(Radius.circular(widget.screenSize.height * 0.05))),
-                    padding: EdgeInsets.all(widget.screenSize.height * 0.05),
+                    height: screenSize.height / 7 * 3,
+                    decoration: BoxDecoration(color: Colors.black87.withOpacity(0.5), borderRadius: BorderRadius.all(Radius.circular(screenSize.height * 0.05))),
+                    padding: EdgeInsets.all(screenSize.height * 0.05),
                     child: StreamBuilder(
                         stream: _modalController.output,
                         initialData: ModalLocationBloc(),

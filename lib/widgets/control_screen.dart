@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pi_mobile/app_module.dart';
+import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/controller/map_screen_controller.dart';
 import 'package:pi_mobile/pages/maps/input_modal.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +13,7 @@ class ControllScreen extends StatefulWidget {
   _ControllScreenState createState() => _ControllScreenState();
 }
 
-class _ControllScreenState extends State<ControllScreen>
-    with SingleTickerProviderStateMixin {
+class _ControllScreenState extends State<ControllScreen> with SingleTickerProviderStateMixin {
   List<Animation<Offset>> navOffset = [];
   Animation colorButton;
   AnimationController _controller;
@@ -22,18 +23,14 @@ class _ControllScreenState extends State<ControllScreen>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
+    _controller = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
     navOffset.length = 3;
     for (int index = 0; index < 3; index++) {
-      navOffset[index] =
-          Tween<Offset>(begin: Offset.zero, end: Offset(0, iconDistance))
-              .animate(CurvedAnimation(
+      navOffset[index] = Tween<Offset>(begin: Offset.zero, end: Offset(0, iconDistance)).animate(CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOutCubic,
       ));
-      colorButton = ColorTween(begin: Color(0xffD31B77), end: Colors.red[800])
-          .animate(_controller);
+      colorButton = ColorTween(begin: Color(0xffD31B77), end: Colors.red[800]).animate(_controller);
       iconDistance = iconDistance - 1.5;
     }
   }
@@ -67,12 +64,17 @@ class _ControllScreenState extends State<ControllScreen>
 
                   showGeneralDialog(
                       context: context,
+                      barrierDismissible: true,
+                      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
                       pageBuilder: (BuildContext ctxt, asd, dfsg) {
+                        AppModule.to.bloc<DirectionsBloc>().modalContext = ctxt;
                         return InputsModal(
                           screenSize: MediaQuery.of(ctxt).size,
                           routeType: provider.routeType,
+                          modalCtxt: ctxt,
                         );
                       });
+                  // Navigator.pushNamed(context, '/modal-locations');
                 }),
           )),
       AnimatedOpacity(
@@ -86,8 +88,7 @@ class _ControllScreenState extends State<ControllScreen>
                   heroTag: "asdgaehadgtxedcrfect",
                   child: Icon(Icons.directions_bike),
                   onPressed: () {
-                    print(
-                        "\n delegate: ${provider.coordinates} new:${provider.secureCoordinates}\n");
+                    print("\n delegate: ${provider.coordinates} new:${provider.secureCoordinates}\n");
                     if (provider.routeType != "cycling") {
                       provider.coordinates = provider.secureCoordinates;
                       provider.routeType = "cycling";

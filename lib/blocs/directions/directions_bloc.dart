@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:pi_mobile/app_module.dart';
 import 'package:pi_mobile/blocs/directions/direction_events.dart';
@@ -14,6 +15,7 @@ class DirectionsBloc extends BlocBase {
   List<LatLng> directions;
   MapboxMapController mapController;
   BehaviorSubject _controller = BehaviorSubject();
+  BuildContext modalContext;
 
   Stream get output => _controller.stream;
   Sink get input => _controller.sink;
@@ -30,8 +32,9 @@ class DirectionsBloc extends BlocBase {
           directions = await directionEvent.drawDirections();
           directionEvent = DirectionsHalfFulled();
           modalController.locationModel.cleanAllInputs();
-
           setOptions(directions);
+          print('\n\ncontext -------- ${modalContext.widget} \n\n');
+          Navigator.popUntil(modalContext, ModalRoute.withName('/'));
         }
         print(directions);
         return;

@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 class ModalLocationBloc extends BlocBase {
   final ModalLocationModel locationModel = ModalLocationModel();
   Map inputs;
-
+  BuildContext modalContext;
   BehaviorSubject _controller = BehaviorSubject();
 
   Stream get output => _controller.stream;
