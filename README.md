@@ -36,8 +36,8 @@ MAPBOX_KEY=SUA_CHAVE_DO_MAPBOX;
 - [X] Buscar e listar as localizações conforme o usuário digita sua localização
 - [X] Desenhar as rotas escolhidas na aplicação
 - [X] Conexão e tratamento dos dados com as apis mapbox
-- [ ] Migrar do provider para o Bloc pattern 
-- [ ] Carregar do banco dados de rotas customizadas
+- [X] Migrar do provider para o Bloc pattern com rxdart
+- [ ] Carregar do backend as rotas customizadas
 - [ ] Login com JWT
 - [ ] Permitir o usuário escolher sua rota favorita
 - [ ] Obter mais dados do usuário
