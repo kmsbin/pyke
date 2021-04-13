@@ -8,11 +8,10 @@ extension isNullObj on Object {
 }
 
 class Utils {
+  static Position positions;
+
   static Future<Position> get position async {
     try {
-      List<Address> newLoc = await Geocoder.local.findAddressesFromQuery("Balneário Camboriú");
-      print(newLoc[0].addressLine);
-      print(newLoc);
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
       bool _serviceEnabled;

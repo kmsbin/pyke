@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:geocoder/model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:pi_mobile/model/location_model.dart';
@@ -14,11 +13,6 @@ class ModalLocationModel {
   List<Location> locations = [];
   InputModifier currentModifier = InputModifier.to;
   Position initialPosition = Position();
-
-  void cleanAllInputs() => inputs.forEach((key, value) {
-        value.textController.text = "";
-        value.coordinate = null;
-      });
 }
 
 class InputCoordinate {

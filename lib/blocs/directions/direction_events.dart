@@ -18,9 +18,12 @@ class DirectionsFulled extends DirectionEvent {
   const DirectionsFulled({fromWaypoint, toWaypoint}) : super(fromWaypoint, toWaypoint);
 
   @override
-  Future<List<LatLng>> drawDirections() async {
+  Future<Map<String, List<LatLng>>> drawDirections() async {
     print('ready to search');
-    return await DirectionHandler.directionHandler(fromWaypoint, toWaypoint, 'cycling');
+    var walking = await DirectionHandler.directionHandler(fromWaypoint, toWaypoint, 'walking');
+    var cycling = await DirectionHandler.directionHandler(fromWaypoint, toWaypoint, 'cycling');
+
+    return {"walking": walking, "cycling": cycling};
   }
 }
 

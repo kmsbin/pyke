@@ -44,7 +44,7 @@ class _InputsModalState extends State<InputsModal> {
                       height: screenSize.height / 3.2,
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(color: Colors.black87.withOpacity(0.5), borderRadius: BorderRadius.all(Radius.circular(screenSize.height * 0.05))),
-                      padding: EdgeInsets.all(screenSize.height * 0.05),
+                      padding: EdgeInsets.all(screenSize.height * 0.03),
                       child: Form(
                           onChanged: () {},
                           key: _formKey,
@@ -52,36 +52,65 @@ class _InputsModalState extends State<InputsModal> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              TextFormField(
-                                  controller: _modalController.fromTextController,
-                                  style: TextStyle(color: Colors.white54),
-                                  onChanged: (String data) {
-                                    AppModule.to.bloc<ModalLocationBloc>().displayTextValue(data, InputModifier.from);
-                                  },
-                                  // onChanged: (txt) =>
-                                  // inputController.setFrom(txt)
-                                  // ,
-                                  decoration: InputDecoration(
-                                      hintStyle: TextStyle(color: Colors.white54),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.white54, width: 2.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.white54, width: 2.0),
-                                      ))),
-                              TextFormField(
-                                  controller: _modalController.toTextController,
-                                  style: TextStyle(color: Colors.white54),
-                                  onChanged: (String data) {
-                                    AppModule.to.bloc<ModalLocationBloc>().displayTextValue(data, InputModifier.to);
-                                  },
-                                  decoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.white54, width: 2.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.white54, width: 2.0),
-                                      )))
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                        controller: _modalController.fromTextController,
+                                        style: TextStyle(color: Colors.white54),
+                                        onChanged: (String data) {
+                                          AppModule.to.bloc<ModalLocationBloc>().displayTextValue(data, InputModifier.from);
+                                        },
+                                        // onChanged: (txt) =>
+                                        // inputController.setFrom(txt)
+                                        // ,
+                                        decoration: InputDecoration(
+                                            hintStyle: TextStyle(color: Colors.white54),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.white54, width: 2.0),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.white54, width: 2.0),
+                                            ))),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      AppModule.to.bloc<ModalLocationBloc>().clearInput(InputModifier.from);
+                                    },
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.white54,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                        controller: _modalController.toTextController,
+                                        style: TextStyle(color: Colors.white54),
+                                        onChanged: (String data) {
+                                          AppModule.to.bloc<ModalLocationBloc>().displayTextValue(data, InputModifier.to);
+                                        },
+                                        decoration: InputDecoration(
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.white54, width: 2.0),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.white54, width: 2.0),
+                                            ))),
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                        AppModule.to.bloc<ModalLocationBloc>().clearInput(InputModifier.to);
+                                      },
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white54,
+                                      ))
+                                ],
+                              )
                             ],
                           ))),
                   Expanded(

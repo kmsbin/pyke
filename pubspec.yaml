@@ -60,6 +60,7 @@ flutter:
   assets:
     - assets/map_style.json
     - assets/images/user_profile.png
+    - assets/images/map_marker.png
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

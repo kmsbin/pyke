@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
+import 'package:pi_mobile/blocs/controls_bloc.dart';
 import 'package:pi_mobile/pages/maps/home.dart';
 import 'package:pi_mobile/pages/maps/input_modal.dart';
 
@@ -11,6 +12,7 @@ class AppModule extends ModuleWidget {
   List<Bloc> get blocs => [
         Bloc((i) => DirectionsBloc()),
         Bloc((i) => ModalLocationBloc()),
+        Bloc((i) => ControlsBloc()),
       ];
 
   @override
