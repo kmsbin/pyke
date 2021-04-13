@@ -37,6 +37,9 @@ dependencies:
   provider: ^4.3.2+2
   mapbox_gl: ^0.9.0
   dio: ^3.0.10
+  rxdart: ^0.26.0
+  bloc_pattern: ^2.5.1
+  equatable: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

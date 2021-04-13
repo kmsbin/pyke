@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi_mobile/app_module.dart';
+import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -8,9 +10,9 @@ import 'package:pi_mobile/controller/map_screen_controller.dart';
 class GMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<MapScreenController>(context);
+    // var provider = Provider.of<MapScreenController>(context);
     var position = Utils.position;
-    position.then((value) => provider.initFromInput(value));
+    // position.then((value) => provider.initFromInput(value));
     return Container(
         color: const Color(0xff030d22),
         child: FutureBuilder(
@@ -18,22 +20,19 @@ class GMap extends StatelessWidget {
             builder: (context, snapshot) {
               print("\n----------------BUILDING------------------\n");
               if (snapshot.hasData) {
-                provider.initFromInput(snapshot.data);
-                provider.position = snapshot.data;
-                provider.setOptions();
+                // provider.initFromInput(snapshot.data);
+                // provider.position = snapshot.data;
+                // provider.setOptions();
                 return MapboxMap(
                   compassEnabled: true,
                   minMaxZoomPreference: MinMaxZoomPreference(12, 16.5),
-                  myLocationTrackingMode:
-                      MyLocationTrackingMode.TrackingCompass,
+                  myLocationTrackingMode: MyLocationTrackingMode.TrackingCompass,
                   onMapCreated: (MapboxMapController currentController) {
-                    provider.mapController = currentController;
+                    AppModule.to.bloc<DirectionsBloc>().mapController = currentController;
                   },
-                  styleString:
-                      "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
+                  styleString: "mapbox://styles/kauli/ckjm2tkgp14nu19n24yfw8m20",
                   initialCameraPosition: CameraPosition(
-                    target:
-                        LatLng(snapshot.data.latitude, snapshot.data.longitude),
+                    target: LatLng(snapshot.data.latitude, snapshot.data.longitude),
                     zoom: 15,
                   ),
                 );
@@ -42,8 +41,7 @@ class GMap extends StatelessWidget {
                   color: const Color(0xff030d22),
                   child: Center(
                     child: CircularProgressIndicator(
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xffD31B77)),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xffD31B77)),
                       backgroundColor: const Color(0xff030d22),
                     ),
                   ),
