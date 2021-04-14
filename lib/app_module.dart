@@ -26,7 +26,7 @@ class AppModule extends ModuleWidget {
           accentColor: Color(0xffD31B77),
         ),
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Google Maps Demo',
+        title: 'Pyke',
         routes: {
           '/': (context) => CoreMaps(),
           '/modal-locations': (context) => InputsModal(modalCtxt: context),

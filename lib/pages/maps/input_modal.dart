@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:pi_mobile/app_module.dart';
 import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
 import 'package:pi_mobile/model/modal_location_model.dart';
+import 'package:pi_mobile/utils.dart';
 
 class InputsModal extends StatefulWidget {
   final Size screenSize;
@@ -21,7 +26,22 @@ class _InputsModalState extends State<InputsModal> {
   @override
   void initState() {
     AppModule.to.bloc<DirectionsBloc>().stream();
-    AppModule.to.bloc<DirectionsBloc>().modalContext = widget.modalCtxt;
+    () async {
+      AppModule.to.bloc<DirectionsBloc>().modalContext = widget.modalCtxt;
+      String address = await Utils.getAddressFromCoord(Utils.position);
+      Position position = await Utils.position;
+
+      AppModule.to.bloc<ModalLocationBloc>().initialPosition(LatLng(position.latitude, position.longitude), address);
+    }();
+
+    // Utils.position.then((Position position) async {
+    //   AppModule.to.bloc<ModalLocationBloc>().initialPosition(LatLng(position.latitude, position.longitude), address.first.addressLine);
+    //   Geocoder.local.findAddressesFromCoordinates(Coordinates(position.latitude, position.longitude)).then((address) {});
+
+    //   // print("\n\n rua: ${place.street}, bairro: ${place.subLocality}  \n\n\n");
+    //   // print("\n\n lat ${position.latitude}, lng: ${position.longitude}  \n\n\n");
+    // });
+
     super.initState();
   }
 

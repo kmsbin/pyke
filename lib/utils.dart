@@ -1,4 +1,5 @@
 import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -26,6 +27,18 @@ class Utils {
       return position;
     } catch (e) {
       return e;
+    }
+  }
+
+  static Future<String> getAddressFromCoord(Future<Position> posi) async {
+    try {
+      Position position = await posi;
+
+      List<Address> address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(position.latitude, position.longitude));
+      return address.first.addressLine;
+    } catch (e) {
+      print(e);
+      return '';
     }
   }
 

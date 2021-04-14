@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:pi_mobile/model/location_model.dart';
 import 'package:pi_mobile/model/modal_location_model.dart';
 import 'package:pi_mobile/resources/locations_connect.dart';
@@ -24,6 +25,16 @@ class ModalLocationBloc extends BlocBase {
         value.textController.text = "";
         value.coordinate = null;
       });
+  void initialPosition(LatLng position, String placename) {
+    locationModel.inputs[InputModifier.from].coordinate = position;
+    locationModel.inputs[InputModifier.from].textController.text = placename;
+
+    print(position);
+    print(placename);
+
+    input.add(locationModel.inputs);
+    _controller.add(locationModel);
+  }
 
   void clearInput(InputModifier modifier) {
     locationModel.inputs[modifier].coordinate = null;
