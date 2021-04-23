@@ -1,13 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_mobile/app_module.dart';
 import 'package:pi_mobile/blocs/login/login_bloc.dart';
-import 'package:pi_mobile/pages/maps/home.dart';
 import 'package:pi_mobile/pages/register/register_screen.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   final GlobalKey<NavigatorState> navigatorKey;
@@ -47,7 +43,8 @@ class LoginScreen extends StatelessWidget {
                                   textCapitalization: TextCapitalization.words,
                                   controller: loginBloc.email,
                                   onChanged: (evt) {
-                                    // loginBloc.formKey.currentState.validate();
+                                    loginBloc.validate_email = false;
+                                    loginBloc.formKey.currentState.validate();
                                   },
                                   style: TextStyle(
                                     color: const Color(0xffd31b77),
@@ -87,13 +84,13 @@ class LoginScreen extends StatelessWidget {
                                 controller: loginBloc.password,
                                 obscureText: true,
                                 onChanged: (evt) {
-                                  // loginBloc.formKey.currentState.validate();
+                                  loginBloc.validate_password = false;
+                                  loginBloc.formKey.currentState.validate();
                                 },
                                 style: TextStyle(
                                   color: const Color(0xffd31b77),
                                   decorationColor: const Color(0xffd31b77),
                                 ),
-
                                 // The validator receives the text that the user has entered.
                                 decoration: new InputDecoration(
                                   labelStyle: TextStyle(color: const Color(0xffd31b77)),
@@ -146,39 +143,10 @@ class LoginScreen extends StatelessWidget {
                               // ),
                               onPressed: () async {
                                 loginBloc.login(context, navigatorKey);
-                                // try {
-                                //   Dio dio = new Dio();
-                                //   response = await dio.post("https://pi-backend.herokuapp.com/login/", data: {"id": 0, "name": "teste da rota", "email": emailController.text, "password": passwordController.text});
-                                //   // print("my RESPONSE:" + response.data);
-                                //   // var provider = Provider.of<MapScreenController>(context)
-                                //   Navigator.push(context, MaterialPageRoute(builder: (context) => CoreMaps()));
-                                //   return;
-                                // } on DioError catch (e) {
-                                //   if (e.response.statusCode == 400) {
-                                //     // print(e.response.data);
-                                //     print(e.response.data['error']['message']);
-                                //     if (e.response.data['error']['message'] == "not registered email") {
-                                //       validate_email = true;
-                                //       _formKey.currentState.validate();
-                                //       return;
-                                //     }
-                                //     if (e.response.data['error']['message'] == "wrong password") {
-                                //       validate_email = true;
-                                //       _formKey.currentState.validate();
-                                //       return;
-                                //     }
-                                //   } else {
-                                //     print(e.message);
-                                //     print(e.request);
-                                //   }
-                                // }
                               },
                               child: Text("submit"))
                         ],
                       ));
-                  // } else {
-                  // return CircularProgressIndicator();
-                  // }
                 }),
           ),
         ));

@@ -1,13 +1,12 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
 import 'package:pi_mobile/blocs/controls_bloc.dart';
 import 'package:pi_mobile/pages/login/login_home.dart';
 import 'package:pi_mobile/pages/maps/home.dart';
 import 'package:pi_mobile/pages/maps/input_modal.dart';
-import 'package:pi_mobile/utils.dart';
+import 'package:pi_mobile/pages/register/register_screen.dart';
 
 import 'blocs/login/login_bloc.dart';
 
@@ -38,6 +37,7 @@ class AppModule extends ModuleWidget {
       title: 'Pyke',
       initialRoute: '/login',
       routes: {
+        '/register': (context) => RegisterScreen(),
         '/': (context) => CoreMaps(),
         '/login': (context) => LoginScreen(navigatorKey: navigatorKey),
         '/modal-locations': (context) => InputsModal(modalCtxt: context),

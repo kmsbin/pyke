@@ -52,6 +52,14 @@ class LoginBloc extends BlocBase {
     }
   }
 
+  onChangeInput() {
+    validate_email = false;
+    validate_password = false;
+
+    input.add(validate_email);
+    input.add(validate_password);
+  }
+
   @override
   void dispose() {
     _controller.close();
@@ -85,15 +93,11 @@ class LoginBloc extends BlocBase {
           context: loginContext,
           pageBuilder: (ctxt, _, __) {
             modalCtxt = ctxt;
-            print('largura da parada ${MediaQuery.of(loginContext).size.width * 0.5}');
-            print('altura da parada ${MediaQuery.of(loginContext).size.width * 0.5}');
             return Scaffold(
               backgroundColor: Colors.transparent,
               body: Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: MediaQuery.of(loginContext).size.width * 0.1, minHeight: MediaQuery.of(loginContext).size.width * 0.1),
-                  // width: MediaQuery.of(loginContext).size.width * 0.1,
-                  // height: MediaQuery.of(loginContext).size.width * 0.1,
                   child: Center(child: CircularProgressIndicator()),
                 ),
               ),
