@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,6 +11,8 @@ extension isNullObj on Object {
 
 class Utils {
   static Position positions;
+
+  static final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   static Future<Position> get position async {
     try {
@@ -30,15 +33,18 @@ class Utils {
     }
   }
 
-  static Future<String> getAddressFromCoord(Future<Position> posi) async {
+  static Future<Map<String, Object>> getAddressFromCoord(Future<Position> posi) async {
     try {
       Position position = await posi;
 
       List<Address> address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(position.latitude, position.longitude));
-      return address.first.addressLine;
+      return {
+        "address": address.first.addressLine,
+        "position": position,
+      };
     } catch (e) {
       print(e);
-      return '';
+      return {};
     }
   }
 
