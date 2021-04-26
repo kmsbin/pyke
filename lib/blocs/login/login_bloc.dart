@@ -19,13 +19,12 @@ class LoginBloc extends BlocBase {
   bool validate_email = false;
   bool validate_password = false;
 
-  UserModel userModel = UserModel();
-
   Sink get input => _controller.sink;
   Stream get output => _controller.stream;
 
   //we have fix this scrap
   void login(BuildContext newLoginContext, GlobalKey<NavigatorState> newNavigatorKey) async {
+    UserModel userModel = UserModel();
     navigatorKey = newNavigatorKey;
 
     loginContext = newLoginContext;

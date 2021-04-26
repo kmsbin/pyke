@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_mobile/blocs/directions/directions_bloc.dart';
 import 'package:pi_mobile/blocs/modal_location_bloc.dart';
 import 'package:pi_mobile/blocs/controls_bloc.dart';
+import 'package:pi_mobile/blocs/register/register_bloc.dart';
 import 'package:pi_mobile/pages/login/login_home.dart';
 import 'package:pi_mobile/pages/maps/home.dart';
 import 'package:pi_mobile/pages/maps/input_modal.dart';
@@ -19,6 +20,7 @@ class AppModule extends ModuleWidget {
         Bloc((i) => DirectionsBloc()),
         Bloc((i) => ModalLocationBloc()),
         Bloc((i) => ControlsBloc()),
+        Bloc((i) => RegisterBloc()),
       ];
 
   @override
@@ -35,10 +37,12 @@ class AppModule extends ModuleWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       title: 'Pyke',
-      initialRoute: '/login',
+      initialRoute: '/register',
       routes: {
-        '/register': (context) => RegisterScreen(),
         '/': (context) => CoreMaps(),
+        '/register': (context) => RegisterScreen(
+              navigatorKey: navigatorKey,
+            ),
         '/login': (context) => LoginScreen(navigatorKey: navigatorKey),
         '/modal-locations': (context) => InputsModal(modalCtxt: context),
       },

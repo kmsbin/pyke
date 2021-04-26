@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pi_mobile/model/user_model.dart';
 
-class LoginConnect {
+class RegisterConnect {
   static const String baseUrl = "https://pi-backend.herokuapp.com/login/";
 
   static connect(UserModel userModel) async {
@@ -9,10 +9,12 @@ class LoginConnect {
     try {
       Dio dio = new Dio();
       var response = await dio.post("https://pi-backend.herokuapp.com/user/", data: {"id": 0, "name": userModel.name, "email": userModel.email, "password": userModel.password});
+      if (response.data.keys.contains('error')) {
+        print(response.data.keys.runtimeType);
+        throw response.data['error']['message'];
+      }
     } on DioError catch (e) {
-      if (e.response.statusCode == 400) {
-        if (e.response.data["error"]["message"] == "this email already registered") {}
-      } else {}
+      return e;
     }
   }
 }
