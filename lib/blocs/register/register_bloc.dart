@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pi_mobile/model/user_model.dart';
@@ -48,7 +49,7 @@ class RegisterBloc extends BlocBase {
       print(userModel.name);
       input.add(userModel);
       try {
-        var loginConnect = await RegisterConnect.connect(userModel);
+        var loginConnect = await compute(RegisterConnect.connect, userModel);
         if (loginConnect is DioError) {
           throw 'error';
         }

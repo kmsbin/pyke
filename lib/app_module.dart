@@ -37,7 +37,7 @@ class AppModule extends ModuleWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       title: 'Pyke',
-      initialRoute: '/register',
+      initialRoute: '/login',
       routes: {
         '/': (context) => CoreMaps(),
         '/register': (context) => RegisterScreen(
