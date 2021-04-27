@@ -11,6 +11,11 @@ Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial 
 
 ### Preview 
 ![plot](./preview/Screenshot_20210427-173309.png)
+![plot](./preview/Screenshot_20210427-173337.png)
+![plot](./preview/Screenshot_20210427-174206.png)
+![plot](./preview/Screenshot_20210427-174223.png)
+![plot](./preview/Screenshot_20210427-174306.png)
+![plot](./preview/Screenshot_20210427-174340.png)
 
 ## Tecnologias usadas 
 - Flutter 
