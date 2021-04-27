@@ -10,9 +10,7 @@ Neste modo ao escolher o ponto de partida e o de chegada a aplicação irá calc
 Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial no calculo da rota: ciclovias e ruas pouco movimentadas que serão feitos com dados próprios da aplicação.
 
 ### Preview 
-![plot](./preview/Screenshot_20210427-173309.png ./preview/Screenshot_20210427-173337.png) ![plot](./preview/Screenshot_20210427-173337.png)![plot](./preview/Screenshot_20210427-174206.png)![plot](./preview/Screenshot_20210427-174223.png)![plot](./preview/Screenshot_20210427-174306.png)![plot](./preview/Screenshot_20210427-174340.png)
-
-## Tecnologias usadas 
+![plot](./preview/fullPreview.png)
 - Flutter 
 - Provider 
 - MapBox-gl
