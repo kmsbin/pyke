@@ -12,7 +12,6 @@ Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial 
 ## Como Funciona?
 <p align="center"> 
   <img src="https://raw.githubusercontent.com/kmsbin/pyke/main/preview/file.gif">
-![plot](./preview/file.gif)
 </p>
 ## Full Preview 
 ![plot](./preview/fullPreview.png)file.gif
