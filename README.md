@@ -10,8 +10,9 @@ Neste modo ao escolher o ponto de partida e o de chegada a aplicação irá calc
 Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial no calculo da rota: ciclovias e ruas pouco movimentadas que serão feitos com dados próprios da aplicação.
 
 ## Como Funciona?
+<p align="center"> 
 ![plot](./preview/file.gif)
-
+</p>
 ## Full Preview 
 ![plot](./preview/fullPreview.png)file.gif
 ### O que foi usado? 
