@@ -15,7 +15,7 @@ Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial 
 </p>
 
 ## Full Preview 
-![plot](./preview/fullPreview.png)file.gif
+![plot](./preview/fullPreview.png)
 ### O que foi usado? 
 - Flutter 
 - Provider 
