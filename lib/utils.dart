@@ -16,7 +16,7 @@ class Utils {
 
   static Future<Position> get position async {
     try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = Position(latitude: -26.91160470989281, longitude: -48.6591895825432);
 
       bool _serviceEnabled;
 

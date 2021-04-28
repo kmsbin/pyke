@@ -74,6 +74,17 @@ class DirectionsBloc extends BlocBase {
         lineOpacity: 1.0,
         lineBlur: 1.0,
       );
+      LatLngBounds bounds = LatLngBounds(
+        southwest: coordinates.last,
+        northeast: coordinates.first,
+      );
+      // calculating centre of the bounds
+      LatLng centerBounds = LatLng((bounds.northeast.latitude + bounds.southwest.latitude) / 2, (bounds.northeast.longitude + bounds.southwest.longitude) / 2);
+
+      // setting map position to centre to start with
+      // mapController.moveCamera();
+      mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, left: 5, top: 5, bottom: 5, right: 5));
+
       mapController?.addLine(optionsLine);
       mapController?.clearLines();
     }

@@ -18,8 +18,8 @@ class GMap extends StatelessWidget {
               if (snapshot.hasData) {
                 return MapboxMap(
                   compassEnabled: true,
-                  myLocationEnabled: true,
-                  myLocationRenderMode: MyLocationRenderMode.NORMAL,
+                  // myLocationEnabled: true,
+                  // myLocationRenderMode: MyLocationRenderMode.NORMAL,
                   myLocationTrackingMode: MyLocationTrackingMode.Tracking,
                   minMaxZoomPreference: MinMaxZoomPreference(12, 16.5),
                   // myLocationTrackingMode: MyLocationTrackingMode.TrackingCompass,

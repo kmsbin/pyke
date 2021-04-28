@@ -35,7 +35,8 @@ class LoginBloc extends BlocBase {
       loginState = LoginEvent.loading;
       input.add(userModel);
       try {
-        var loginConnect = await compute(LoginConnect.connect, userModel);
+        var loginConnect = await LoginConnect.connect(userModel);
+
         if (loginConnect is DioError) {
           throw 'error';
         }
