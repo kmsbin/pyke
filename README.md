@@ -18,9 +18,12 @@ Neste modo o ciclista será conduzido a uma rota mais segura sendo preferencial 
 ![plot](./preview/fullPreview.png)
 ### O que foi usado? 
 - Flutter 
-- Provider 
+- Bloc
 - MapBox-gl
 - MapBox API
+- MapBox Direction API
+- Geolocation
+- Geocoding
 
 
 ## Instalação
